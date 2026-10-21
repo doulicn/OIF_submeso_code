@@ -1,0 +1,109 @@
+cff-version: 1.2.0
+message: >-
+  If you use this code or data, please cite the article (preferred citation)
+  and this archive. The code is released under the MIT License; the data,
+  tables and figures under CC BY 4.0 (see README.md and LICENSE).
+type: software
+title: >-
+  Code and data for: Role of Submesoscale Processes in Ocean Iron Fertilization
+  in the Subarctic Eastern North Pacific
+version: 1.0.0
+# Add at release: date-released: YYYY-MM-DD (the date of the Zenodo release).
+# Placeholder: replace with the DOI that Zenodo assigns at release.
+doi: 10.5281/zenodo.XXXXXXX
+# Code: MIT; data, tables and figures: CC BY 4.0 (see LICENSE).
+license:
+  - MIT
+  - CC-BY-4.0
+abstract: >-
+  MATLAB code and processed output of nested ROMS-BEC simulations (1, 4 and
+  12 km) of ocean iron fertilization near Ocean Station Papa that reproduce
+  Figures 1-5, Supporting Information Figures S1-S12 and Table A1 of the
+  article. The plot scripts read only the processed data in data/; the prep
+  scripts document how data/ was built from intermediate model products.
+keywords:
+  - ocean iron fertilization
+  - submesoscale
+  - marine carbon dioxide removal
+  - ROMS
+  - BEC
+  - biogeochemical modeling
+  - Ocean Station Papa
+  - subarctic North Pacific
+  - MATLAB
+authors:
+  - family-names: Li
+    given-names: Dou
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: Bianchi
+    given-names: Daniele
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: Damien
+    given-names: Pierre
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: Guiet
+    given-names: Jerome
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: Pham
+    given-names: Anh Le-Duy
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: Feng
+    given-names: Ling
+    affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+  - family-names: McGillicuddy
+    given-names: Dennis J.
+    name-suffix: Jr
+    affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+  - family-names: Buesseler
+    given-names: Ken O.
+    affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+  - family-names: Liu
+    given-names: Zihua
+    affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+  - family-names: Chai
+    given-names: Fei
+    affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
+  - family-names: Xiu
+    given-names: Peng
+    affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
+preferred-citation:
+  type: article
+  title: Role of Submesoscale Processes in Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+  journal: Geophysical Research Letters
+  # In review; CFF has no "in review" status, so "submitted" is used.
+  status: submitted
+  authors:
+    - family-names: Li
+      given-names: Dou
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: Bianchi
+      given-names: Daniele
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: Damien
+      given-names: Pierre
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: Guiet
+      given-names: Jerome
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: Pham
+      given-names: Anh Le-Duy
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: Feng
+      given-names: Ling
+      affiliation: "Department of Atmospheric and Oceanic Sciences, University of California, Los Angeles, Los Angeles, California, USA"
+    - family-names: McGillicuddy
+      given-names: Dennis J.
+      name-suffix: Jr
+      affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+    - family-names: Buesseler
+      given-names: Ken O.
+      affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+    - family-names: Liu
+      given-names: Zihua
+      affiliation: "Woods Hole Oceanographic Institution, Woods Hole, MA, USA"
+    - family-names: Chai
+      given-names: Fei
+      affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
+    - family-names: Xiu
+      given-names: Peng
+      affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
