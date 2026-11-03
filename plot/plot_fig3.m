@@ -2,16 +2,16 @@
 %   LaTeX label fig:ensemble; published file Fig4_ensem_var.pdf (the source
 %   PDFs of Figures 3-5 carry their pre-revision numbers).
 %   (a) mean filamentation index (first two release months), (b) 60-day mean
-%   patch area, (c) 60-day in-patch integrated air-sea CO2 flux anomaly
-%   (patch mask; right axis tons C), (d) balanced two-way variance partition
+%   patch area, (c) 60-day air-sea CO2 flux anomaly integrated over the
+%   OSP-1KM domain (right axis tons C), (d) balanced two-way variance partition
 %   (R1: timing x resolution; June: region x resolution) of FI, patch area
 %   and the domain-integrated CO2 flux anomaly.
 %
-%   Differences from the caption and legend (the published panels are
-%   reproduced):
-%   - (c) is integrated over the fertilized patch, while (d), Fig. 4 and
-%     Table A1 use the integral over the OSP-1KM domain; (c) carries the
-%     label int_A that Table A1 uses for the domain integral.
+%   (c) uses the same domain integral as (d), Fig. 4 and Table A1 (label
+%   int_A, A = OSP-1KM domain). The originally published panel (c) was
+%   integrated over the fertilized patch; integral_area = 'patch' reproduces it.
+%
+%   Differences from the caption and legend:
 %   - Red and blue error bars (lib/ens_resolution_stats.m, as in the
 %     original analysis): red = mean/std of the four release-month means at
 %     each resolution, the June value pooling regions R1-R3; blue = mean/std
@@ -21,13 +21,13 @@
 %   - FI is P^2/(4*pi*A) (perimeter P, area A), as in the original
 %     analysis; the manuscript defines FI = P/sqrt(A).
 %
-%   Options (set the variables in the workspace before running the script;
-%   the defaults reproduce the published figure):
-%     integral_area = 'patch'   (default) (c) integrated over the patch
-%                     'domain'  (c) integrated over the OSP-1KM domain
-%                               (E.int_dom_CO2, the quantity of (d), Fig. 4
-%                               and Table A1); the y-labels then read
-%                               int_domain
+%   Options (set the variables in the workspace before running the script):
+%     integral_area = 'domain'  (default) (c) integrated over the OSP-1KM
+%                               domain (E.int_dom_CO2, the quantity of (d),
+%                               Fig. 4 and Table A1); y-labels int_A
+%                     'patch'   (c) integrated over the fertilized patch
+%                               (E.int_patch_CO2, as originally published);
+%                               y-labels int_P
 %     errorbar_stat = 'pooled'  (default) red/blue error bars as above
 %                     'subset'  red: the four R1 runs (May-Aug), blue: the
 %                               three June runs (R1-R3) of each resolution;
@@ -39,7 +39,7 @@
 
 addpath(fullfile(fileparts(mfilename('fullpath')), '..'));  % package root
 C = setup_paths();
-if ~exist('integral_area', 'var'); integral_area = 'patch'; end
+if ~exist('integral_area', 'var'); integral_area = 'domain'; end
 if ~exist('errorbar_stat', 'var'); errorbar_stat = 'pooled'; end
 integral_area = validatestring(integral_area, {'patch', 'domain'});
 errorbar_stat = validatestring(errorbar_stat, {'pooled', 'subset'});
@@ -66,12 +66,12 @@ ylabel('$\mathrm{Patch\ area\ (km^2)}$', 'Interpreter','latex');
 text(ax, 0.02, 0.12, '(b)', 'Units','normalized', 'FontSize', fs+2);
 
 % ---- (c) integrated CO2 flux anomaly (60 days; patch or domain) ----
-if strcmp(integral_area, 'domain')     % unit on a second line (fits the panel height)
+if strcmp(integral_area, 'domain')     % A = OSP-1KM domain, as in Table A1
     vc = E.int_dom_CO2;
-    lab = @(u) {'$\mathrm{\int_{domain}^T(\Delta CO_2\ FLUX),}$', ['$\mathrm{(' u ')}$']};
-else                                   % label of the published panel
-    vc = E.int_patch_CO2;
     lab = @(u) ['$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (' u ')}$'];
+else                                   % P = fertilized patch
+    vc = E.int_patch_CO2;
+    lab = @(u) ['$\mathrm{\int_{P}^T(\Delta CO_2\ FLUX),\ (' u ')}$'];
 end
 ax = axes('Position', pc, 'FontSize', fs);
 yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
@@ -143,7 +143,7 @@ legend([hr hl], [E.region_names(:)', {sprintf('Ensemble mean \\pm std (n=%d)', n
     'NumColumns', 2, 'Position', [0.143 0.048 0.34 0.12], 'Box','off', 'FontSize', fs);
 
 outname = 'Fig3';
-if ~strcmp(integral_area, 'patch');  outname = [outname '_' integral_area]; end
+if ~strcmp(integral_area, 'domain'); outname = [outname '_' integral_area]; end
 if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');

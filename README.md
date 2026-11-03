@@ -206,13 +206,16 @@ slightly different size.
 
 ## 4. Options
 
-The defaults reproduce the published figures, and `make_all_figures` always
-uses the defaults. To use an option, run the script by hand.
+The defaults reproduce the published figures, except that Figures 3c and S8a
+now use the domain integral by default (`integral_area = 'patch'` reproduces
+the originally published panels). `make_all_figures` always uses the defaults.
+To use an option, run the script by hand.
 
 | Option | Script | Values (default first) | Effect | Output |
 |---|---|---|---|---|
-| `integral_area` | `plot_fig2`, `plot_fig3`, `plot_figS8` | `'patch'`, `'domain'` | Integrals of Figures 2e,f, 3c and S8a over the fertilized patch (as published) or over the OSP-1KM analysis domain (the integral of Figures 3d and 4 and Table A1) | `Fig2_domain`, `Fig3_domain`, `FigS8_domain` (`.png`, `.pdf`) |
-| `errorbar_stat` | `plot_fig3`, `plot_figS8` | `'pooled'`, `'subset'` | Statistic of the red and blue error bars (Section 5.3) | `Fig3_subset`, `FigS8_subset`; with both options `Fig3_domain_subset`, `FigS8_domain_subset` |
+| `integral_area` | `plot_fig2` | `'patch'`, `'domain'` | Integrals of Figure 2e,f over the fertilized patch (as published) or over the OSP-1KM analysis domain (the integral of Figures 3c,d, S8 and 4 and Table A1) | `Fig2_domain` (`.png`, `.pdf`) |
+| `integral_area` | `plot_fig3`, `plot_figS8` | `'domain'`, `'patch'` | Integrals of Figures 3c and S8a over the OSP-1KM analysis domain (label int_A, as in Figures 3d and 4 and Table A1) or over the fertilized patch (label int_P, as originally published) | `Fig3_patch`, `FigS8_patch` (`.png`, `.pdf`) |
+| `errorbar_stat` | `plot_fig3`, `plot_figS8` | `'pooled'`, `'subset'` | Statistic of the red and blue error bars (Section 5.3) | `Fig3_subset`, `FigS8_subset`; with both options `Fig3_patch_subset`, `FigS8_patch_subset` |
 | `use_caption_seasons` | `plot_figS11` | `false`, `true` | Months of Figure S11(e,f): June-July and December-January (as published) or June-August and December-February | `FigS11_caption_seasons` |
 | `avg_months` | `plot_figS12` | `[6 7]`, any months within 6-9 | Months averaged in Figure S12; `[6 7 8]` gives June-August. The OIF run has coarse-grained fluxes for June-September only. | `FigS12_months_6_7_8` (for `[6 7 8]`) |
 | `uniform_30day_window` | `prep_validation` | `false`, `true` | Smoothing of the model series of Figure S1(a-e): `edata_freq*30` samples as in the original code (30/60/36/30 days at 1/4/12/25 km) or 30 days for every run (Section 5.4). Needs the intermediate products. | rewrites `data/valid_model_papa.mat`; run `plot_figS1` afterwards |
@@ -223,8 +226,8 @@ uses the defaults. To use an option, run the script by hand.
 Workspace switches are set as variables before the script runs, for example
 
 ```matlab
-integral_area = 'domain'; errorbar_stat = 'subset';
-plot_fig3                          % writes figures/Fig3_domain_subset.png and .pdf
+integral_area = 'patch'; errorbar_stat = 'subset';
+plot_fig3                          % writes figures/Fig3_patch_subset.png and .pdf
 clear integral_area errorbar_stat  % otherwise they stay in effect for later scripts
 ```
 
@@ -284,12 +287,12 @@ analysis these are the composites with the tags LS11 and LS12 (Section 9.4).
 | Fig. 2a-d | patch area; patch mean, maximum, minimum and 5th-95th percentiles of surface dFe, dNO3, dChl | patch |
 | Fig. 2e,f | cumulative POC flux anomaly at 100 m and 500 m and air-sea CO2 flux anomaly | patch (`integral_area = 'domain'` for the domain) |
 | Fig. 3a,b | mean FI; 60-day mean patch area | patch |
-| Fig. 3c | 60-day CO2 flux anomaly | patch |
+| Fig. 3c | 60-day CO2 flux anomaly | domain (`integral_area = 'patch'` for the patch, as originally published) |
 | Fig. 3d | variance partition of FI, patch area and the 60-day CO2 flux anomaly | domain (CO2) |
 | Fig. 4 | y: 60-day CO2 flux anomaly; x: (a) 60-day mean patch area, (b) patch-area weighted mean control-run PHYC, (c) patch-integrated control-run PHYC | y: domain; x: patch |
 | Fig. 5, S9 | Fe and DIC budget terms, upper 50 m, two-month window | domain |
 | Fig. S7 | patch mean (area-weighted sum / patch area), maximum, minimum, 5th-95th percentiles | patch |
-| Fig. S8a | 60-day POC flux anomaly at 100 m | patch |
+| Fig. S8a | 60-day POC flux anomaly at 100 m | domain (`integral_area = 'patch'` for the patch, as originally published) |
 | Fig. S8b-d | variance partition and correlations of the POC flux anomaly | domain |
 | Fig. S10 | Fe and DIC profiles, June-July mean | domain |
 | Table A1 | CO2 and POC flux anomalies; patch area; PHYC (Section 5.7) | domain; patch area: patch |
@@ -555,8 +558,8 @@ window of Section 5.2.
 | `month_id`, `region_id` | double 18×1 | | index into `month_names`, `region_names` |
 | `month_names`, `region_names` | cell 4×1, 3×1 | | `{Jun, May, Jul, Aug}`, `{R1, R2, R3}` |
 | `patch_area_60` | double 18×1 | km2 | 60-day mean surface patch area (Figure 3b, Table A1) |
-| `int_patch_CO2`, `int_patch_POC100`, `int_patch_POC500` | double 18×1 | mmol C | 60-day sum of the daily patch integral of the OIF - control air-sea CO2 flux, POC flux at 100 m and POC flux at 500 m (Figures 3c, S8a) |
-| `int_dom_CO2`, `int_dom_POC100`, `int_dom_POC500` | double 18×1 | mmol C | the same over the analysis domain; equal to `xls_CO2`, `xls_POC100`, `xls_POC500` (Table A1) |
+| `int_patch_CO2`, `int_patch_POC100`, `int_patch_POC500` | double 18×1 | mmol C | 60-day sum of the daily patch integral of the OIF - control air-sea CO2 flux, POC flux at 100 m and POC flux at 500 m (Figures 3c, S8a with `integral_area = 'patch'`) |
+| `int_dom_CO2`, `int_dom_POC100`, `int_dom_POC500` | double 18×1 | mmol C | the same over the analysis domain; equal to `xls_CO2`, `xls_POC100`, `xls_POC500` (Figures 3c, S8a, Table A1) |
 | `units` | struct | | unit strings: `units.patch_area_60` (km2), `units.int` (the `int_*` integrals), `units.xls` (the `xls_*` values) |
 | `fi_series` | cell 18×1 of double 1×60 or 1×61 | | daily FI = `P^2/(4*pi*A)`, day 2 of the release month to the end of the following month |
 | `fi_time` | cell 18×1 | datenum | days of `fi_series` |

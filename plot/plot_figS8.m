@@ -1,23 +1,27 @@
 %PLOT_FIGS8 Supporting Information Figure S8: ensemble variability of POC export at 100 m.
 %   LaTeX label fig:si_ens_POC; published file Fig_SI_ens_variance_POC.pdf.
-%   (a) 60-day in-patch integrated POC flux anomaly vs resolution (patch
-%   mask; right axis tons C), (b) variance partition of the domain-integrated
+%   (a) 60-day POC flux anomaly integrated over the OSP-1KM domain vs
+%   resolution (right axis tons C), (b) variance partition of the domain-integrated
 %   POC flux anomaly (R1: timing x resolution; June: region x resolution),
 %   (c,d) POC flux anomaly vs patch area and vs patch-integrated control PHYC.
 %
-%   Differences from the caption (the published panels are reproduced):
-%   - (a) is integrated over the fertilized patch, (b)-(d) over the OSP-1KM
-%     domain; both carry the label int_A.
+%   (a)-(d) all use the integral over the OSP-1KM domain (label int_A). The
+%   originally published panel (a) was integrated over the fertilized patch;
+%   integral_area = 'patch' reproduces it.
+%
+%   Differences from the caption:
 %   - Red and blue error bars in (a) pool runs as described in plot_fig3.m
 %     (all six runs of a resolution enter both); the caption describes
 %     statistics of the R1 runs (red) and of the June runs (blue).
 %
-%   Options (set the variables in the workspace before running the script;
-%   the defaults reproduce the published figure), as in plot_fig3.m:
-%     integral_area = 'patch'   (default) (a) integrated over the patch
-%                     'domain'  (a) integrated over the OSP-1KM domain
-%                               (E.int_dom_POC100, as in (b)-(d)); the
-%                               y-labels of (a) then read int_domain
+%   Options (set the variables in the workspace before running the script),
+%   as in plot_fig3.m:
+%     integral_area = 'domain'  (default) (a) integrated over the OSP-1KM
+%                               domain (E.int_dom_POC100, as in (b)-(d));
+%                               y-labels int_A
+%                     'patch'   (a) integrated over the fertilized patch
+%                               (E.int_patch_POC100, as originally
+%                               published); y-labels int_P
 %     errorbar_stat = 'pooled'  (default) or 'subset' (red: the four R1 runs,
 %                               blue: the three June runs of a resolution)
 %   With a non-default option the output is figures/FigS8_<options>.png/.pdf.
@@ -27,7 +31,7 @@
 
 addpath(fullfile(fileparts(mfilename('fullpath')), '..'));  % package root
 C = setup_paths();
-if ~exist('integral_area', 'var'); integral_area = 'patch'; end
+if ~exist('integral_area', 'var'); integral_area = 'domain'; end
 if ~exist('errorbar_stat', 'var'); errorbar_stat = 'pooled'; end
 integral_area = validatestring(integral_area, {'patch', 'domain'});
 errorbar_stat = validatestring(errorbar_stat, {'pooled', 'subset'});
@@ -39,12 +43,12 @@ fig = oif_figure('Units','centimeters','Position',[2 2 18.5 9.5],'Color','w','Vi
 P = {[0.08 0.60 0.37 0.36], [0.585 0.60 0.37 0.36], [0.08 0.12 0.37 0.33], [0.585 0.12 0.37 0.33]};
 
 % ---- (a) ----
-if strcmp(integral_area, 'domain')     % unit on a second line (fits the panel height)
+if strcmp(integral_area, 'domain')     % A = OSP-1KM domain, as in (b)-(d)
     va = E.int_dom_POC100;
-    lab = @(u) {'$\mathrm{\int_{domain}^T(\Delta POC\ FLUX),}$', ['$\mathrm{(' u ')}$']};
-else                                   % label of the published panel
-    va = E.int_patch_POC100;
     lab = @(u) ['$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (' u ')}$'];
+else                                   % P = fertilized patch
+    va = E.int_patch_POC100;
+    lab = @(u) ['$\mathrm{\int_{P}^T(\Delta POC\ FLUX),\ (' u ')}$'];
 end
 ax = axes('Position', P{1}, 'FontSize', fs);
 yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
@@ -107,7 +111,7 @@ for k = 1:2
 end
 
 outname = 'FigS8';
-if ~strcmp(integral_area, 'patch');  outname = [outname '_' integral_area]; end
+if ~strcmp(integral_area, 'domain'); outname = [outname '_' integral_area]; end
 if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');
