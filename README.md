@@ -1,4 +1,4 @@
-# Code and data for: Role of Submesoscale Processes in Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+# Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
 
 Dou Li<sup>1</sup>, Daniele Bianchi<sup>1</sup>, Pierre Damien<sup>1</sup>, Jerome Guiet<sup>1</sup>,
 Anh Le-Duy Pham<sup>1</sup>, Ling Feng<sup>1</sup>, Dennis J. McGillicuddy Jr<sup>2</sup>,
@@ -1084,10 +1084,8 @@ machine-readable metadata are in `CITATION.cff` and `.zenodo.json`.
 
 - Li, D., Bianchi, D., Damien, P., Guiet, J., Pham, A. L.-D., Feng, L.,
   McGillicuddy, D. J., Jr., Buesseler, K. O., Liu, Z., Chai, F., & Xiu, P.
-  (in review). Role of Submesoscale Processes in Ocean Iron Fertilization in
-  the Subarctic Eastern North Pacific. Geophysical Research Letters.
+  (in review). Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific. Geophysical Research Letters.
 - Li, D., Bianchi, D., Damien, P., Guiet, J., Pham, A. L.-D., Feng, L.,
   McGillicuddy, D. J., Jr., Buesseler, K. O., Liu, Z., Chai, F., & Xiu, P.
-  (2026). Code and data for: Role of Submesoscale Processes in Ocean Iron
-  Fertilization in the Subarctic Eastern North Pacific (Version 1.0.0)
+  (2026). Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific (Version 1.0.0)
   [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX

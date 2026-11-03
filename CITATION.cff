@@ -5,12 +5,11 @@ message: >-
   tables and figures under CC BY 4.0 (see README.md and LICENSE).
 type: software
 title: >-
-  Code and data for: Role of Submesoscale Processes in Ocean Iron Fertilization
-  in the Subarctic Eastern North Pacific
+  Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
 version: 1.0.0
-# Add at release: date-released: YYYY-MM-DD (the date of the Zenodo release).
+date-released: 2026-11-03
 # Placeholder: replace with the DOI that Zenodo assigns at release.
-doi: 10.5281/zenodo.XXXXXXX
+# doi: 10.5281/zenodo.XXXXXXX
 # Code: MIT; data, tables and figures: CC BY 4.0 (see LICENSE).
 license:
   - MIT
@@ -68,7 +67,7 @@ authors:
     affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
 preferred-citation:
   type: article
-  title: Role of Submesoscale Processes in Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+  title: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
   journal: Geophysical Research Letters
   # In review; CFF has no "in review" status, so "submitted" is used.
   status: submitted
