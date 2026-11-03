@@ -8,8 +8,7 @@
 %   and the domain-integrated CO2 flux anomaly.
 %
 %   (c) uses the same domain integral as (d), Fig. 4 and Table A1 (label
-%   int_A, A = OSP-1KM domain). The originally published panel (c) was
-%   integrated over the fertilized patch; integral_area = 'patch' reproduces it.
+%   int_A, A = OSP-1KM domain).
 %
 %   Differences from the caption and legend:
 %   - Red and blue error bars (lib/ens_resolution_stats.m, as in the
@@ -22,12 +21,6 @@
 %     analysis; the manuscript defines FI = P/sqrt(A).
 %
 %   Options (set the variables in the workspace before running the script):
-%     integral_area = 'domain'  (default) (c) integrated over the OSP-1KM
-%                               domain (E.int_dom_CO2, the quantity of (d),
-%                               Fig. 4 and Table A1); y-labels int_A
-%                     'patch'   (c) integrated over the fertilized patch
-%                               (E.int_patch_CO2, as originally published);
-%                               y-labels int_P
 %     errorbar_stat = 'pooled'  (default) red/blue error bars as above
 %                     'subset'  red: the four R1 runs (May-Aug), blue: the
 %                               three June runs (R1-R3) of each resolution;
@@ -39,9 +32,7 @@
 
 addpath(fullfile(fileparts(mfilename('fullpath')), '..'));  % package root
 C = setup_paths();
-if ~exist('integral_area', 'var'); integral_area = 'domain'; end
 if ~exist('errorbar_stat', 'var'); errorbar_stat = 'pooled'; end
-integral_area = validatestring(integral_area, {'patch', 'domain'});
 errorbar_stat = validatestring(errorbar_stat, {'pooled', 'subset'});
 E = load(fullfile(C.data_dir, 'ens_metrics.mat'));
 S = oif_ens_style(E);
@@ -65,14 +56,9 @@ yticks(ax, (1:4)*1e4);                        % as published
 ylabel('$\mathrm{Patch\ area\ (km^2)}$', 'Interpreter','latex');
 text(ax, 0.02, 0.12, '(b)', 'Units','normalized', 'FontSize', fs+2);
 
-% ---- (c) integrated CO2 flux anomaly (60 days; patch or domain) ----
-if strcmp(integral_area, 'domain')     % A = OSP-1KM domain, as in Table A1
-    vc = E.int_dom_CO2;
-    lab = @(u) ['$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (' u ')}$'];
-else                                   % P = fertilized patch
-    vc = E.int_patch_CO2;
-    lab = @(u) ['$\mathrm{\int_{P}^T(\Delta CO_2\ FLUX),\ (' u ')}$'];
-end
+% ---- (c) CO2 flux anomaly integrated over the OSP-1KM domain (60 days) ----
+vc = E.int_dom_CO2;                    % A = OSP-1KM domain, as in Table A1
+lab = @(u) ['$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (' u ')}$'];
 ax = axes('Position', pc, 'FontSize', fs);
 yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
 plot_ens_resolution(ax, vc, E, S, [], errorbar_stat);
@@ -143,7 +129,6 @@ legend([hr hl], [E.region_names(:)', {sprintf('Ensemble mean \\pm std (n=%d)', n
     'NumColumns', 2, 'Position', [0.143 0.048 0.34 0.12], 'Box','off', 'FontSize', fs);
 
 outname = 'Fig3';
-if ~strcmp(integral_area, 'domain'); outname = [outname '_' integral_area]; end
 if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');

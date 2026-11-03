@@ -5,9 +5,7 @@
 %   POC flux anomaly (R1: timing x resolution; June: region x resolution),
 %   (c,d) POC flux anomaly vs patch area and vs patch-integrated control PHYC.
 %
-%   (a)-(d) all use the integral over the OSP-1KM domain (label int_A). The
-%   originally published panel (a) was integrated over the fertilized patch;
-%   integral_area = 'patch' reproduces it.
+%   (a)-(d) all use the integral over the OSP-1KM domain (label int_A).
 %
 %   Differences from the caption:
 %   - Red and blue error bars in (a) pool runs as described in plot_fig3.m
@@ -16,12 +14,6 @@
 %
 %   Options (set the variables in the workspace before running the script),
 %   as in plot_fig3.m:
-%     integral_area = 'domain'  (default) (a) integrated over the OSP-1KM
-%                               domain (E.int_dom_POC100, as in (b)-(d));
-%                               y-labels int_A
-%                     'patch'   (a) integrated over the fertilized patch
-%                               (E.int_patch_POC100, as originally
-%                               published); y-labels int_P
 %     errorbar_stat = 'pooled'  (default) or 'subset' (red: the four R1 runs,
 %                               blue: the three June runs of a resolution)
 %   With a non-default option the output is figures/FigS8_<options>.png/.pdf.
@@ -31,9 +23,7 @@
 
 addpath(fullfile(fileparts(mfilename('fullpath')), '..'));  % package root
 C = setup_paths();
-if ~exist('integral_area', 'var'); integral_area = 'domain'; end
 if ~exist('errorbar_stat', 'var'); errorbar_stat = 'pooled'; end
-integral_area = validatestring(integral_area, {'patch', 'domain'});
 errorbar_stat = validatestring(errorbar_stat, {'pooled', 'subset'});
 E = load(fullfile(C.data_dir, 'ens_metrics.mat'));
 S = oif_ens_style(E);
@@ -43,23 +33,14 @@ fig = oif_figure('Units','centimeters','Position',[2 2 18.5 9.5],'Color','w','Vi
 P = {[0.08 0.60 0.37 0.36], [0.585 0.60 0.37 0.36], [0.08 0.12 0.37 0.33], [0.585 0.12 0.37 0.33]};
 
 % ---- (a) ----
-if strcmp(integral_area, 'domain')     % A = OSP-1KM domain, as in (b)-(d)
-    va = E.int_dom_POC100;
-    lab = @(u) ['$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (' u ')}$'];
-else                                   % P = fertilized patch
-    va = E.int_patch_POC100;
-    lab = @(u) ['$\mathrm{\int_{P}^T(\Delta POC\ FLUX),\ (' u ')}$'];
-end
+va = E.int_dom_POC100;                 % A = OSP-1KM domain, as in (b)-(d)
+lab = @(u) ['$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (' u ')}$'];
 ax = axes('Position', P{1}, 'FontSize', fs);
 yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
 plot_ens_resolution(ax, va, E, S, [], errorbar_stat);
 ylabel(lab('mmol\ C'), 'Interpreter','latex', 'Color','k');
-if strcmp(integral_area, 'patch')
-    yl = [0 12e12];                           % as published
-else
-    yl = ylim(ax); dy = diff(yticks(ax));     % automatic, top on a tick
-    yl(2) = ceil(yl(2)/dy(1))*dy(1);
-end
+yl = ylim(ax); dy = diff(yticks(ax));         % automatic, top on a tick
+yl(2) = ceil(yl(2)/dy(1))*dy(1);
 ylim(ax, yl);
 yyaxis(ax, 'right'); set(ax, 'YColor', 'k'); ylim(ax, yl*tonsC);
 ylabel(lab('Tons\ C'), 'Interpreter','latex', 'Color','k');
@@ -111,7 +92,6 @@ for k = 1:2
 end
 
 outname = 'FigS8';
-if ~strcmp(integral_area, 'domain'); outname = [outname '_' integral_area]; end
 if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');
