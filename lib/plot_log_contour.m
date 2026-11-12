@@ -7,7 +7,7 @@ function cb = plot_log_contour(lon, lat, data, mask, order_min, order_max, ...
 %
 % Inputs:
 %   lon, lat   : x and y grids (longitude and latitude, or e.g. filter scale
-%                and time or depth in Figs. S11 and S12)
+%                and time or depth in Figs. S12 and S13)
 %   data       : data field to be log-scaled (e.g., SST)
 %   mask       : mask applied to data (same size as data). The log-scaled data
 %                are multiplied by it, so points with mask = 0 get the log

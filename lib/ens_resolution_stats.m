@@ -1,5 +1,5 @@
 function S = ens_resolution_stats(val, res_id, month_id, region_id, sel_month, sel_region)
-%ENS_RESOLUTION_STATS Ensemble mean/std per resolution (Fig. 3a-c, Fig. S8a).
+%ENS_RESOLUTION_STATS Ensemble mean/std per resolution (Fig. 3a-c, Fig. S9a).
 %
 %   S = ens_resolution_stats(val, res_id, month_id, region_id)
 %   S = ens_resolution_stats(val, res_id, month_id, region_id, sel_month, sel_region)
@@ -14,7 +14,7 @@ function S = ens_resolution_stats(val, res_id, month_id, region_id, sel_month, s
 %               the R1 runs and sel_region = the June runs every group holds
 %               a single run, which gives the R1-only and June-only
 %               statistics that the captions describe (errorbar_stat =
-%               'subset' in plot_fig3 and plot_figS8).
+%               'subset' in plot_fig3 and plot_figS9).
 %
 %   For each resolution ir (as in the original analysis code):
 %     S.mean_all/std_all       : mean/std over all cases at that resolution

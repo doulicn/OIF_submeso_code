@@ -1,4 +1,4 @@
-%PREP_TIMESERIES_ENSEMBLE Build the compact data files behind Figs. 2-4, S7, S8 and Table A1.
+%PREP_TIMESERIES_ENSEMBLE Build the compact data files behind Figs. 2-4, S7, S9 and Table S1.
 %
 %   Reads (from C.roms_dir, the ROMS/ folder of the data root C.box_root,
 %   environment variable OIF_DATA_ROOT; see oif_config.m):
@@ -19,8 +19,8 @@
 %   Writes:
 %     data/ts_patch_timeseries.mat  daily patch statistics, all 18 runs
 %     data/ens_metrics.mat          per-run 60-day ensemble metrics, variance
-%                                   partition and correlations (Figs. 3, 4, S8,
-%                                   Table A1)
+%                                   partition and correlations (Figs. 3, S9,
+%                                   Table S1)
 %     data/obs_series2002.mat       SERIES 2002 observations (Boyd et al. 2004/2005)
 %
 %   Analysis windows. The 60-day sums (int_patch_*, int_dom_*) and the 60-day
@@ -144,9 +144,9 @@ save(fullfile(C.data_dir, 'ts_patch_timeseries.mat'), '-struct', 'ts', '-v7');
 % ------------------------------------------------ 60-day ensemble metrics --
 E = struct();
 E.README = ['Per-run 60-day OIF metrics (18 runs, order = rows of C.oif x 1/4/12 km). ' ...
-    'int_patch_*: 60-day sum of the daily in-patch area-weighted OIF-control sum (patch mask, LS11 composites; Figs. 2e,f, 3c, S8a). ' ...
+    'int_patch_*: 60-day sum of the daily in-patch area-weighted OIF-control sum (patch mask, LS11 composites; Figs. 2e,f, 3c, S9a). ' ...
     'int_dom_*: same over the whole OSP-1KM domain (LS12 composites); equal to the xls_* values. ' ...
-    'int_dom_* / xls_* (xls_*: values of the 60-day summary tables Statistics_InOutPatch_*.xlsx) are used for Figs. 3d, 4, S8b-d and Table A1. ' ...
+    'int_dom_* / xls_* (xls_*: values of the 60-day summary tables Statistics_InOutPatch_*.xlsx) are used for Figs. 3d-f, S9b-d and Table S1. ' ...
     'Windows: 60 days from the first day with a non-empty patch in each composite (day 2 of the release month; day 3 for the LS12 composites of 4KM_May, 4KM_Jul and 4KM_Aug); ' ...
     'fi_*: day 2 of the release month to the end of the following month. ' ...
     'Figure numbers as in the compiled manuscript.'];
@@ -197,7 +197,7 @@ E.xls_ctrlPHYC_wavg = xls_get(xls_patch, 'Control run', 'PHYC', '', 'Patch-area 
 E.xls_ctrlPHYC_int  = xls_get(xls_patch, 'Control run', 'PHYC', '', 'Spatiotemporal integration in', label, 'first');
 E.units.xls = 'fluxes: mmol C (60-day, whole domain); area: km2; PHYC wavg: mmol m-3; PHYC int: as in table';
 
-% ---- variance partition (Fig. 3d, Fig. S8b) ----
+% ---- variance partition (Fig. 3d, Fig. S9b) ----
 % metrics as in the original analysis: FI (daily cache), patch area (patch
 % table, mean of all rows), CO2 and POC(100 m) from the domain table.
 vm = {'FI', E.fi_mean; 'PatchArea', E.xls_area_all; 'CO2_FLUX', E.xls_CO2; ...
@@ -217,7 +217,7 @@ V.pct_R1_patchPOC100   = variance_two_way(E.int_patch_POC100(selR1),  month_lbl(
 V.pct_June_patchPOC100 = variance_two_way(E.int_patch_POC100(selJun), region_lbl(selJun), res_lbl(selJun));
 E.var = V;
 
-% ---- correlations (Fig. 4, Fig. S8c,d) ----
+% ---- correlations (Fig. 3e,f, Fig. S9c,d) ----
 cp = {'dCO2_FLUX_int_vs_PatchArea',    E.xls_area_CO2,      E.xls_CO2
       'dCO2_FLUX_int_vs_ctrlPHYC_wavg', E.xls_ctrlPHYC_wavg, E.xls_CO2
       'dCO2_FLUX_int_vs_ctrlPHYC_int',  E.xls_ctrlPHYC_int,  E.xls_CO2

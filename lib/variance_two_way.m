@@ -18,7 +18,7 @@ function [pct, G, SS] = variance_two_way(val, facA, facB)
 %
 %   This reproduces the "balanced two-factor ANOVA" decomposition used for
 %   the R1 subset (release month x resolution) and the June subset (release
-%   region x resolution) in Fig. 3d and Fig. S8b. The partition assumes a
+%   region x resolution) in Fig. 3d and Fig. S9b. The partition assumes a
 %   complete grid; NaN values and empty or NaN cells are reported with a
 %   warning (the NaN-aware means then describe an unbalanced design).
 

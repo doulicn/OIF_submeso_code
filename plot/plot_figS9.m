@@ -1,142 +1,167 @@
-%PLOT_FIGS9 Supporting Information Figure S9: ensemble comparison of Fe and DIC budgets.
-%   LaTeX label fig:si_ens_budget_groups; published file Fig_ens_budget_groups.pdf.
-%   (a,c) Fe and (b,d) DIC budget terms.
-%   (a,b) ensemble mean +/- std for the 1-, 4- and 12-km simulations;
-%   (c,d) All (n=18), R1 release (n=12) and June release (n=9) groups.
-%   Numbers: group-mean term / group-mean surface flux term.
-%   Ported from PACMED12_Process_budget.m (by-resolution block and grouped
-%   block of icomb 31).
+%PLOT_FIGS9 Supporting Information Figure S9: ensemble variability of POC export at 100 m.
+%   LaTeX label fig:si_ens_POC; published file Fig_SI_ens_variance_POC.pdf.
+%   (a) 60-day POC flux anomaly integrated over the OSP-1KM domain vs
+%   resolution (right axis tons C), (b) variance partition of the domain-integrated
+%   POC flux anomaly (R1: timing x resolution; June: region x resolution),
+%   (c-e) POC flux anomaly vs (c) patch area, (d) patch-integrated control
+%   PHYC and (e) patch-area mean control-run mixed-layer depth, (f) air-sea
+%   CO2 flux anomaly vs the same mixed-layer depth, (g,h) POC export (g) and
+%   CO2 flux (h) anomalies vs release month; lines: mean of each resolution
+%   (1, 4, 12 km; darker = finer), error bars in June: std across R1-R3.
 %
-%   Size and fonts: the published figure is a 621 x 312 pt composite of four
-%   separately exported panels; this figure reproduces their axes size
-%   (9.8 x 4.1 cm), spacing and font sizes (axes 9 pt, legend 7.2 pt,
-%   numbers 5.4 pt, panel letters 13 pt). Two layout changes avoid overlaps
-%   of the published panels: where numbers reach below the x-axis (Fe UPTAKE
-%   in a,c) the tick labels start 6 pt instead of 2 pt below the axis, and
-%   the legends sit in the lower-left corner, below the BIO numbers.
-%   As in the published figure (and the original code): panel (b) is
-%   annotated 'b = dBudget/dDIC_FLUX^surf' while the caption defines 'a' for
-%   both tracers (known caption difference); only the imposed Fe surface flux
-%   has no error bar and number (the DIC surface flux keeps its spread and
-%   1.00); the surface-flux tick labels are black (purple in Fig. 5).
-%   Legend n: members with data in each group; a warning is issued if a
-%   group misses term values.
-%   Input:  data/budget_ensemble.mat
+%   (a)-(h) all use the integral over the OSP-1KM domain (label int_A).
+%
+%   Differences from the caption:
+%   - Red and blue error bars in (a) pool runs as described in plot_fig3.m
+%     (all six runs of a resolution enter both); the caption describes
+%     statistics of the R1 runs (red) and of the June runs (blue).
+%   - In (g,h) the June runs of a resolution are spread by +/-0.07 month so
+%     that they do not overlap, as in the original code.
+%
+%   Options (set the variables in the workspace before running the script),
+%   as in plot_fig3.m:
+%     errorbar_stat = 'pooled'  (default) or 'subset' (red: the four R1 runs,
+%                               blue: the three June runs of a resolution)
+%   With a non-default option the output is figures/FigS9_<options>.png/.pdf.
+%
+%   Input:  data/ens_metrics.mat, data/ens_mld.mat (from prep/prep_ensemble_mld.m)
 %   Output: figures/FigS9.png/.pdf
 
 addpath(fullfile(fileparts(mfilename('fullpath')), '..'));  % package root
 C = setup_paths();
-load(fullfile(C.data_dir, 'budget_ensemble.mat'), 'budget');
-for tr = {'Fe','DIC'}
-    if ~any(isfinite(budget.(tr{1}).diff(:)))
-        error('OIF:FigS9:noData', '%s budget in budget_ensemble.mat has no finite values', tr{1});
+if ~exist('errorbar_stat', 'var'); errorbar_stat = 'pooled'; end
+errorbar_stat = validatestring(errorbar_stat, {'pooled', 'subset'});
+E = load(fullfile(C.data_dir, 'ens_metrics.mat'));
+M = load(fullfile(C.data_dir, 'ens_mld.mat'));
+S = oif_ens_style(E);
+tonsC = C.mmolC_to_tC; fs = 8;
+
+fig = oif_figure('Units','centimeters','Position',[2 2 18.5 19],'Color','w','Visible','off');
+yr = [0.795 0.548 0.300 0.055]; hr = 0.175;     % bottom of the four rows, row height
+P = {[0.08 yr(1) 0.37 hr], [0.585 yr(1) 0.37 hr], [0.08 yr(2) 0.37 hr], [0.585 yr(2) 0.37 hr], ...
+     [0.08 yr(3) 0.37 hr], [0.585 yr(3) 0.37 hr], [0.08 yr(4) 0.37 hr], [0.585 yr(4) 0.37 hr]};
+
+% ---- (a) ----
+va = E.int_dom_POC100;                 % A = OSP-1KM domain, as in (b)-(d)
+lab = @(u) ['$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (' u ')}$'];
+ax = axes('Position', P{1}, 'FontSize', fs);
+yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
+plot_ens_resolution(ax, va, E, S, [], errorbar_stat);
+ylabel(lab('mmol\ C'), 'Interpreter','latex', 'Color','k');
+yl = ylim(ax); dy = diff(yticks(ax));         % automatic, top on a tick
+yl(2) = ceil(yl(2)/dy(1))*dy(1);
+ylim(ax, yl);
+yyaxis(ax, 'right'); set(ax, 'YColor', 'k'); ylim(ax, yl*tonsC);
+ylabel(lab('Tons\ C'), 'Interpreter','latex', 'Color','k');
+yyaxis(ax, 'left');
+text(ax, 0.02, 0.1, '(a)', 'Units','normalized', 'FontSize', fs+2);
+
+% ---- (b) variance partition (bars) ----
+ax = axes('Position', P{2}, 'FontSize', fs); hold on;
+im = find(strcmp(E.var.metric, 'POC_FLUX_100m'));
+h = [E.var.pct_R1(im,:), E.var.pct_June(im,:)];
+xp = [1 2 3 5 6 7];
+bc = [S.col_time; S.col_res; S.col_int; S.col_reg; S.col_res; S.col_int];
+for k = 1:6
+    bar(xp(k), h(k), 0.7, 'FaceColor', bc(k,:), 'EdgeColor','none');
+end
+ylim([0 100]); xlim([0 9.5]);          % as published (xlim([0, xcur+gap*0.5]) in the original code)
+set(ax, 'XTick', xp, 'XTickLabel', {'Time','Res.','Int.','Reg.','Res.','Int.'}, 'TickLength',[0 0], 'Box','on');
+text(2, -18, 'R1', 'HorizontalAlignment','center', 'FontWeight','bold', 'FontSize', fs, 'Clipping','off');
+text(6, -18, 'June', 'HorizontalAlignment','center', 'FontWeight','bold', 'FontSize', fs, 'Clipping','off');
+ylabel('$\mathrm{Variance\ explained\ (\%)}$', 'Interpreter','latex');
+title('$\mathrm{POC\ FLUX\ (100\ m)}$', 'Interpreter','latex', 'FontWeight','normal');
+grid on;
+hv = gobjects(1,4); lc = [S.col_reg; S.col_time; S.col_res; S.col_int];
+for k = 1:4; hv(k) = plot(nan, nan, 's', 'MarkerFaceColor', lc(k,:), 'MarkerEdgeColor','none', 'MarkerSize', 7); end
+legend(hv, {'Region','Timing','Resolution','Interaction'}, 'Location','northeast', 'Box','off', 'FontSize', fs);
+text(ax, 0.98, 0.1, '(b)', 'Units','normalized', 'HorizontalAlignment','right', 'FontSize', fs+2);
+
+% ---- (c,d) correlations ----
+ylab = '$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (mmol)}$';
+pn = {'dPOC_FLUX_int_vs_PatchArea', 'dPOC_FLUX_int_vs_ctrlPHYC_int'};
+xlab = {'Patch area (km^2)', '$\mathrm{\int_{A}^T(PHYC_{ctrl}),\ (mmol\ m^{-1})}$'};
+xint = {'tex','latex'}; pos_lbl = [0.02 0.98]; ha = {'left','right'};
+for k = 1:2
+    ax = axes('Position', P{2+k}, 'FontSize', fs);
+    plot_ens_corr(ax, E.corr.(pn{k}), S, S.msize, fs);
+    xlabel(xlab{k}, 'Interpreter', xint{k}); ylabel(ylab, 'Interpreter','latex');
+    ylim([0 15e12]);
+    if k == 1
+        xlim([1 4]*1e4);
+        hm = gobjects(1,4); hr = gobjects(1,3);
+        for j = 1:4; hm(j) = scatter(ax, nan, nan, S.msize, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor', S.month_col(j,:)); end
+        for j = 1:3; hr(j) = scatter(ax, nan, nan, S.msize, S.region_marker{j}, 'MarkerEdgeColor','k', 'MarkerFaceColor', S.region_face); end
+        legend(ax, [hm hr], [E.month_names(:)', E.region_names(:)'], 'NumColumns', 2, 'Location','southeast', ...
+            'FontSize', fs-1, 'Box','on');
+    else
+        axis tight; ylim([0 15e12]);
     end
+    text(ax, pos_lbl(k), 0.1, ['(' char('b'+k) ')'], 'Units','normalized', 'HorizontalAlignment', ha{k}, 'FontSize', fs+2);
 end
 
-fs = 9;
-% 2 x 2 axes of 9.77 x 4.12 cm with the spacing of the published composite
-fig = oif_figure('visible','off','units','centimeters','position',[2 2 22.4 11.5],'color','w');
-W = 9.77/22.4; Hh = 4.124/11.5; xl = [1.326 12.377]/22.4; yb = [6.727 1.308]/11.5;
-pos = {[xl(1) yb(1) W Hh], [xl(1) yb(2) W Hh], [xl(2) yb(1) W Hh], [xl(2) yb(2) W Hh]};
-letters = {'(a)','(b)','(c)','(d)'};
-tr_list = {'Fe','DIC','Fe','DIC'};
+% ---- (e,f) POC and CO2 flux anomalies vs control-run MLD under the patch ----
+pm = {'dPOC_FLUX_int_vs_ctrlMLD_wavg', 'dCO2_FLUX_int_vs_ctrlMLD_wavg'};
+ylab = {'$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (mmol)}$', '$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (mmol)}$'};
+ylims = {[0 15e12], [0 8e12]};
+for k = 1:2
+    ax = axes('Position', P{4+k}, 'FontSize', fs);
+    plot_ens_corr(ax, M.corr.(pm{k}), S, S.msize, fs);
+    xlabel('Patch-area mean MLD_{ctrl} (m)', 'Interpreter','tex'); ylabel(ylab{k}, 'Interpreter','latex');
+    axis tight; ylim(ylims{k});
+    text(ax, 0.02, 0.1, ['(' char('d'+k) ')'], 'Units','normalized', 'FontSize', fs+2);
+end
 
-% groups for (a,b): resolution
-res_names = {'1KM','4KM','12KM'};
-res_idx = arrayfun(@(r) find(budget.run_res == r), 1:3, 'UniformOutput', false);
-res_colors = C.col_res;               % cbrewer Dark2, as in Figs. 2 and S7
-% groups for (c,d): All / R1 release / June release
-lab = budget.run_label;
-grp_names = {'All','R1 release','June release'};
-grp_idx = {1:numel(lab), find(~contains(lab,'_R2') & ~contains(lab,'_R3')), find(contains(lab,'Jun'))};
-grp_colors = [0.25 0.25 0.25; 0.8500 0.3250 0.0980; 0 0.4470 0.7410];
-
-for ip = 1:4
-    T = budget.(tr_list{ip});
-    is_fe = strcmp(tr_list{ip}, 'Fe');
-    if ip <= 2
-        gidx = res_idx; gcol = res_colors; gname = res_names;
-    else
-        gidx = grp_idx; gcol = grp_colors; gname = grp_names;
-    end
-    nv = size(T.diff,1); ng = numel(gidx); x_b = 1:nv;
-    gmean = nan(nv,ng); gstd = nan(nv,ng); gn = zeros(1,ng);
-    for ig = 1:ng
-        gmean(:,ig) = mean(T.diff(:,gidx{ig}), 2, 'omitnan');
-        gstd(:,ig)  = std(T.diff(:,gidx{ig}), 0, 2, 'omitnan');
-        has = isfinite(T.diff(:,gidx{ig}));
-        gn(ig) = sum(any(has,1));                % members with data
-        if ~all(has(:))
-            warning('OIF:FigS9:missingMembers', ['%s, %s: %d of %d members have data; ' ...
-                '%d term value(s) missing, left out of the means'], ...
-                tr_list{ip}, gname{ig}, gn(ig), numel(gidx{ig}), nnz(~has));
+% ---- (g,h) POC and CO2 flux anomalies vs release month, by resolution ----
+mon_order = {'May','Jun','Jul','Aug'};
+res_col = [0 0 0; 0.45 0.45 0.45; 0.72 0.72 0.72];   % 1, 4, 12 km (darker = finer)
+res_dx = [-0.25 0 0.25];
+[~, mon_id] = ismember(E.month, mon_order);
+vmon = {E.int_dom_POC100, E.int_dom_CO2};
+lab = {@(u) ['$\mathrm{\int_{A}^T(\Delta POC\ FLUX),\ (' u ')}$'], @(u) ['$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (' u ')}$']};
+for k = 1:2
+    v = vmon{k};
+    ax = axes('Position', P{6+k}, 'FontSize', fs); hold(ax, 'on');
+    yyaxis(ax, 'left'); set(ax, 'YColor', 'k');
+    hres = gobjects(1,3);
+    for ir = 1:3
+        mu = nan(1,4); sd = nan(1,4);
+        for im = 1:4
+            sel = E.res_id == ir & mon_id == im & ~isnan(v);
+            if any(sel); mu(im) = mean(v(sel)); sd(im) = std(v(sel), 0); end
         end
+        hres(ir) = errorbar(ax, (1:4)+res_dx(ir), mu, sd, 's-', 'Color', res_col(ir,:), ...
+            'MarkerFaceColor', res_col(ir,:), 'LineWidth', 1.2, 'MarkerSize', 4, 'CapSize', 4);
     end
-    if ip > 2
-        gname = arrayfun(@(ig) sprintf('%s (n=%d)', gname{ig}, gn(ig)), 1:ng, 'UniformOutput', false);
-    end
-    is_surf = contains(T.label,'FLUX') & contains(T.label,'surf');
-    iref = find(is_surf, 1);
-    hide_row = false(nv,1);
-    if is_fe; hide_row = is_surf(:); end       % imposed Fe flux: no error bar / ratio label
-    std_show = gstd; std_show(hide_row,:) = nan;
-    ratio = gmean ./ gmean(iref,:);
-
-    ax = axes('position', pos{ip}); hold on;
-    hb = bar(x_b, gmean, 0.7, 'grouped');
-    for ig = 1:ng
-        hb(ig).FaceColor = gcol(ig,:); hb(ig).EdgeColor = 'none'; hb(ig).DisplayName = gname{ig};
-    end
-    hr = gobjects(0);                          % ratio labels
-    for ig = 1:ng
-        xg = hb(ig).XEndPoints;
-        errorbar(xg, gmean(:,ig), std_show(:,ig), 'k', 'LineStyle','none','LineWidth',0.5, ...
-            'CapSize',4,'HandleVisibility','off');
-        for i = 1:nv
-            if isfinite(ratio(i,ig)) && ~hide_row(i)
-                s = gstd(i,ig); if ~isfinite(s); s = 0; end
-                ypos = gmean(i,ig) + sign(gmean(i,ig))*(s + 0.15*max(abs(gmean(:))));
-                hr(end+1) = text(xg(i), ypos, sprintf('%.2f', ratio(i,ig)), 'HorizontalAlignment','center', ...
-                    'FontSize',fs*0.6,'Color',gcol(ig,:),'Rotation',60); %#ok<SAGROW>
+    for ir = 1:3
+        for im = 1:4
+            sel = find(E.res_id == ir & mon_id == im & ~isnan(v));
+            if numel(sel) > 1; jit = linspace(-0.07, 0.07, numel(sel)); else; jit = 0; end
+            for j = 1:numel(sel)
+                scatter(ax, im+res_dx(ir)+jit(j), v(sel(j)), S.msize*0.6, S.marker{sel(j)}, ...
+                    'MarkerFaceColor', S.color(sel(j),:), 'MarkerEdgeColor','k', 'HandleVisibility','off');
             end
         end
     end
-    yl = ylim; ymax = max(abs(yl));
-    nice = [1 2 5 10]*10^floor(log10(ymax)); ymax = nice(find(nice >= ymax*0.999, 1)); ylim([-ymax ymax]);
-    if ip == 2
-        alab = 'b';          % original label of the by-resolution DIC panel
-    else
-        alab = 'a';
-    end
-    % \displaystyle: display-size fraction also in the vector PDF (as in the PNG)
-    text(1, ymax*0.75, ['$\displaystyle ' alab ' = \frac{\mathrm{\Delta Budget}}{\Delta ' ...
-        strip(T.label{iref}, 'both', '$') '}$'], 'Interpreter','latex','FontSize',fs,'Color','k');
-    xline(4.5, '--k', 'LineWidth', 1.5, 'HandleVisibility','off');
-    xlim([0.5 nv+0.5]); xticks(x_b);
-    grid on; box on; set(ax,'fontsize',fs);
-    if is_fe
-        lg = legend(hb, 'Location','southwest','Interpreter','none','FontSize',fs*0.8,'Box','off');
-        oif_drawnow;   % legend layout final before the move (else the first run of a session differs)
-        lg.Position(1:2) = ax.Position(1:2) + [0 0.005];   % in the corner, below the BIO numbers
-    end
-    % tick labels 6 pt (0.05) instead of 2 pt below the axis where ratio
-    % numbers reach below it (Fe UPTAKE), so that the two do not overlap
-    tick_top = -0.02;
-    if ~isempty(hr)
-        set(hr, 'Units','normalized'); ext = vertcat(hr.Extent); set(hr, 'Units','data');
-        if any(ext(:,2) < tick_top); tick_top = -0.05; end
-    end
-    color_budget_xticklabels(ax, T.label, [], tick_top);   % blue: physical terms, green: biological terms
-    ylabel(['Integrated Difference in ' T.name ' (mmol)'], 'Interpreter','latex');
-    text(0.98, 0.985, letters{ip}, 'Units','normalized','HorizontalAlignment','right', ...
-        'VerticalAlignment','top','FontSize',fs+4);
-
-    fprintf('\nPanel %s (%s): term / surface flux per group (%s)\n', letters{ip}, tr_list{ip}, strjoin(gname, ', '));
-    for i = 1:nv
-        fprintf('  %-28s %s\n', T.label{i}, sprintf('%8.2f', ratio(i,:)));
+    xlim(ax, [0.5 4.5]); xticks(ax, 1:4); xticklabels(ax, mon_order);
+    ylabel(ax, lab{k}('mmol\ C'), 'Interpreter','latex', 'Color','k');
+    yl = ylim(ax); yl(1) = 0; ylim(ax, yl);
+    yyaxis(ax, 'right'); set(ax, 'YColor', 'k'); ylim(ax, yl*tonsC);
+    ylabel(ax, lab{k}('Tons\ C'), 'Interpreter','latex', 'Color','k');
+    yyaxis(ax, 'left'); grid(ax, 'on'); box(ax, 'on');
+    text(ax, 0.02, 0.1, ['(' char('f'+k) ')'], 'Units','normalized', 'FontSize', fs+2);
+    if k == 1
+        legend(ax, hres, strcat('Ensemble mean \pm std (', C.res_label, ')'), 'Location','northeast', ...
+            'FontSize', fs-2, 'Box','on');
     end
 end
 
-exportgraphics(fig, fullfile(C.fig_dir, 'FigS9.png'), 'Resolution', 400);
-exportgraphics(fig, fullfile(C.fig_dir, 'FigS9.pdf'), 'ContentType', 'vector');
+outname = 'FigS9';
+if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
+exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
+exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');
 close(fig);
+fprintf('%s: MLD R = %.2f (POC), %.2f (CO2)\n', outname, M.corr.(pm{1}).R, M.corr.(pm{2}).R);
+fprintf('%s: var R1 [Time Res Int] = %s, June [Reg Res Int] = %s; R = %.2f/%.2f, p = %.3f/%.3f\n', ...
+    outname, mat2str(round(E.var.pct_R1(im,:),1)), mat2str(round(E.var.pct_June(im,:),1)), ...
+    E.corr.(pn{1}).R, E.corr.(pn{2}).R, E.corr.(pn{1}).P, E.corr.(pn{2}).P);

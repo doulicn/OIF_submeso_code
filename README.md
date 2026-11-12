@@ -1,4 +1,4 @@
-# Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+# Code and data for: Background Conditions and Patch Dispersion Shape the Responses to Iron Fertilization in the Subarctic Eastern North Pacific
 
 Dou Li<sup>1</sup>, Daniele Bianchi<sup>1</sup>, Pierre Damien<sup>1</sup>, Jerome Guiet<sup>1</sup>,
 Anh Le-Duy Pham<sup>1</sup>, Ling Feng<sup>1</sup>, Dennis J. McGillicuddy Jr<sup>2</sup>,
@@ -29,21 +29,21 @@ Ken O. Buesseler<sup>2</sup>, Zihua Liu<sup>2</sup>, Fei Chai<sup>3</sup>, Peng 
 ## 1. Overview
 
 This package contains the MATLAB code and the processed model output needed to
-reproduce every figure of the article, Figures 1-5 of the main text and
-Figures S1-S12 of the Supporting Information, and its Table A1.
+reproduce every figure of the article, Figures 1-4 of the main text and
+Figures S1-S13 of the Supporting Information, and its Table S1.
 
 The study uses nested ROMS-BEC simulations around Ocean Station Papa (OSP,
 50°N, 145°W) in 2010 at 12, 4 and 1 km horizontal resolution (configurations
 PACMED-12KM, NEPAC-4KM and OSP-1KM), with 18 ocean iron fertilization (OIF)
-experiments, Cases 1-18 of Table A1: iron releases on 2 May, 2 June, 2 July and
+experiments, Cases 1-18 of Table S1: iron releases on 2 May, 2 June, 2 July and
 2 August at region R1, and on 2 June at regions R2 and R3, each at the three
 resolutions, compared with control runs without iron addition (Section 9).
 
 The package has two layers.
 
-- **Plotting.** The 16 scripts in `plot/` and `tables/make_table_A1.m` read only
-  the 15 MAT files in `data/` (30 MB) and write the figures to `figures/` and
-  Table A1 to `tables/`. This layer runs on any computer with MATLAB, plus the
+- **Plotting.** The 16 scripts in `plot/` and `tables/make_table_S1.m` read only
+  the 17 MAT files in `data/` (31 MB) and write the figures to `figures/` and
+  Table S1 to `tables/`. This layer runs on any computer with MATLAB, plus the
   free M_Map toolbox for the map figures.
 - **Data preparation.** The 4 scripts in `prep/` rebuild `data/` from
   intermediate products of the analysis of the model output (650 files, about
@@ -97,7 +97,7 @@ Use one of these three ways:
 3. Put M_Map on the MATLAB path yourself. A copy that is already on the path is
    used as it is.
 
-### Make all figures and Table A1
+### Make all figures and Table S1
 
 In MATLAB:
 
@@ -114,9 +114,9 @@ matlab -batch "addpath('/path/to/OIF_submeso_code'); make_all_figures"
 ```
 
 The run takes about 90-100 s (86 s in MATLAB and 91 s wall time in our test,
-R2025b on an Apple-silicon Mac). It writes `figures/Fig1.png` ... `FigS12.png`
-and the matching PDF files (34 files), and `tables/table_A1.csv` and
-`tables/table_A1.tex`. Existing files with these names are overwritten.
+R2025b on an Apple-silicon Mac). It writes `figures/Fig1.png` ... `FigS13.png`
+and the matching PDF files (34 files), and `tables/table_S1.csv` and
+`tables/table_S1.tex`. Existing files with these names are overwritten.
 
 `make_all_figures` runs each script in its own workspace and prints the time of
 each script and a summary. A script that fails is reported, the other scripts
@@ -129,8 +129,8 @@ before the run are left alone.
 A normal run prints three warnings, all expected:
 
 - `MATLAB:print:ContentTypeImageSuggested` from the vector PDF export of
-  Figures S1 and S11 (the PDF files are correct);
-- `OIF:nanIgnored` from `make_table_A1`, about days without data in three
+  Figures S1 and S12 (the PDF files are correct);
+- `OIF:nanIgnored` from `make_table_S1`, about days without data in three
   domain composites (Section 5.2).
 
 ### One figure at a time
@@ -169,9 +169,8 @@ slightly different size.
 |---|---|---|---|---|---|---|
 | Figure 1 | `fig:downscale` | `Fig1.pdf` | `plot/plot_fig1.m` | `figures/Fig1.png`, `.pdf` | `fig1_ab`, `fig1_pdfs`, `patchmaps_grid`, `patchmaps_occurrence` | yes |
 | Figure 2 | `fig:line_cmp` | `fig2_lines.pdf` | `plot/plot_fig2.m` | `figures/Fig2.png`, `.pdf` | `ts_patch_timeseries` | no |
-| Figure 3 | `fig:ensemble` | `Fig4_ensem_var.pdf` | `plot/plot_fig3.m` | `figures/Fig3.png`, `.pdf` | `ens_metrics` | no |
-| Figure 4 | `fig:ensemble_corr` | `Fig5_ens_corr.pdf` | `plot/plot_fig4.m` | `figures/Fig4.png`, `.pdf` | `ens_metrics` | no |
-| Figure 5 | `fig:budget_cmp` | `Fig3_ens_budget.pdf` | `plot/plot_fig5.m` | `figures/Fig5.png`, `.pdf` | `budget_ensemble` | no |
+| Figure 3 | `fig:ensemble` | `Fig3_4.pdf` | `plot/plot_fig3.m` | `figures/Fig3.png`, `.pdf` | `ens_metrics` | no |
+| Figure 4 | `fig:budget_cmp` | `Fig5.pdf` | `plot/plot_fig4.m` | `figures/Fig4.png`, `.pdf` | `budget_ensemble` | no |
 | Figure S1 | `fig:si_validation_monthly` | `fig_s1.pdf` | `plot/plot_figS1.m` | `figures/FigS1.png`, `.pdf` | `valid_model_papa`, `valid_obs_papa`, `valid_woa23_papa` | no |
 | Figure S2 | `fig:si_validation_vertical` | `fig_s2.pdf` | `plot/plot_figS2.m` | `figures/FigS2.png`, `.pdf` | `valid_model_papa`, `valid_obs_papa`, `valid_woa23_papa` | no |
 | Figure S3 | `fig:map_cmp` | `Fig_SI_map_diff_July1.pdf` | `plot/plot_figS3.m` | `figures/FigS3.png`, `.pdf` | `patchmaps_grid`, `patchmaps_S3_july1` | yes |
@@ -179,43 +178,52 @@ slightly different size.
 | Figure S5 | `fig:si_occurence_regions` | `Fig_SI_patch_occurence_Regions.pdf` | `plot/plot_figS5_S6.m` | `figures/FigS5.png`, `.pdf` | `patchmaps_grid`, `patchmaps_occurrence` | yes |
 | Figure S6 | `fig:si_occurence_months` | `Fig_SI_patch_occurence_Months.pdf` | `plot/plot_figS5_S6.m` | `figures/FigS6.png`, `.pdf` | `patchmaps_grid`, `patchmaps_occurrence` | yes |
 | Figure S7 | `fig:si_lines_cmp_max` | `Fig_SI_lines_cmp_max2.pdf` | `plot/plot_figS7.m` | `figures/FigS7.png`, `.pdf` | `ts_patch_timeseries`, `obs_series2002` | no |
-| Figure S8 | `fig:si_ens_POC` | `Fig_SI_ens_variance_POC.pdf` | `plot/plot_figS8.m` | `figures/FigS8.png`, `.pdf` | `ens_metrics` | no |
-| Figure S9 | `fig:si_ens_budget_groups` | `Fig_ens_budget_groups.pdf` | `plot/plot_figS9.m` | `figures/FigS9.png`, `.pdf` | `budget_ensemble` | no |
-| Figure S10 | `fig:si_fe_dic_profiles` | `Fig_SI_Fe_DIC_profile.pdf` | `plot/plot_figS10.m` | `figures/FigS10.png`, `.pdf` | `profile_Fe_DIC` | no |
-| Figure S11 | `fig:si_coarse_grain_winter` | `Fig_SI_coarse_grain678.pdf` | `plot/plot_figS11.m` | `figures/FigS11.png`, `.pdf` | `coarsegrain_hovmoller` | no |
-| Figure S12 | `fig:si_coarse_grain_seasonal` | `Fig_coarse_grain_FeDIC.pdf` | `plot/plot_figS12.m` | `figures/FigS12.png`, `.pdf` | `coarsegrain_hovmoller` | no |
-| Table A1 | `tab:oif_experiments` | (table in the main text) | `tables/make_table_A1.m` | `tables/table_A1.csv`, `tables/table_A1.tex` | `ens_metrics`, `ts_patch_timeseries` | no |
+| Figure S8 | `fig:si_nutrient_limit` | `Fig_SI_nutrient_limit.pdf` | `plot/plot_figS8.m` | `figures/FigS8.png`, `.pdf` | `nutrient_limit_R1` | no |
+| Figure S9 | `fig:si_ens_POC` | `Fig_SI_ens_variance_POC.pdf` | `plot/plot_figS9.m` | `figures/FigS9.png`, `.pdf` | `ens_metrics`, `ens_mld` | no |
+| Figure S10 | `fig:si_ens_budget_groups` | `Fig_ens_budget_groups.pdf` | `plot/plot_figS10.m` | `figures/FigS10.png`, `.pdf` | `budget_ensemble` | no |
+| Figure S11 | `fig:si_fe_dic_profiles` | `Fig_SI_Fe_DIC_profile.pdf` | `plot/plot_figS11.m` | `figures/FigS11.png`, `.pdf` | `profile_Fe_DIC` | no |
+| Figure S12 | `fig:si_coarse_grain_winter` | `Fig_SI_coarse_grain678.pdf` | `plot/plot_figS12.m` | `figures/FigS12.png`, `.pdf` | `coarsegrain_hovmoller` | no |
+| Figure S13 | `fig:si_coarse_grain_seasonal` | `Fig_coarse_grain_FeDIC.pdf` | `plot/plot_figS13.m` | `figures/FigS13.png`, `.pdf` | `coarsegrain_hovmoller` | no |
+| Table S1 | `tab:oif_experiments` | (table in the Supporting Information) | `tables/make_table_S1.m` | `tables/table_S1.csv`, `tables/table_S1.tex` | `ens_metrics`, `ts_patch_timeseries` | no |
 
 - "Published file" is the file that the manuscript source includes for the
-  figure. The files of Figures 3-5 carry their numbers from before the
-  revision: `Fig4_ensem_var.pdf` is Figure 3, `Fig5_ens_corr.pdf` is Figure 4
-  and `Fig3_ens_budget.pdf` is Figure 5. Script names, output names and code
-  comments of the package use the numbers of the compiled manuscript.
+  figure (`main_revised_v5_clean.tex`, `SI_revised_v5_clean.tex`). In the
+  revision, Figures 3 and 4 of the original submission were merged into
+  Figure 3 (`Fig3_4.pdf`; the former Figure 4a and 4c are its panels e and f,
+  the former Figure 4b is no longer shown), so the budget figure is now
+  Figure 4 (its source file is still `Fig5.pdf`); the nutrient-limitation
+  figure was added as Figure S8 (former S8-S12 are now S9-S13), panels e-h
+  were added to Figure S9, and Table A1 moved to the Supporting Information
+  as Table S1. Script names, output names and code comments of the package
+  use the numbers of the compiled revised manuscript.
 - PNG files are written at 400 dpi, except Figures 1 and S3-S7 (300 dpi). The
   PDF files are vector graphics, except Figures 1 and S3-S6, which are 300-dpi
-  images.
-- `make_table_A1` writes `table_A1.csv` (six decimals, units in the column
-  names) and `table_A1.tex` (the body rows of the LaTeX table in the column
-  order of the manuscript; patch area and CO2 with 2 decimals, the other
-  columns with 3). Six 100-m POC values in `table_A1.tex` differ from the
+  images, and Figure S8, a 400-dpi image (its interpolated pcolor shading is
+  not rendered reliably from a vector PDF).
+- `make_table_S1` writes `table_S1.csv` (six decimals, units in the column
+  names) and `table_S1.tex` (the body rows of the LaTeX table in the column
+  order of the manuscript, including the three columns in 10^4 t C computed
+  from the rounded 10^12 mmol C values as in the manuscript; see the header
+  of `make_table_S1.m` for the decimals). Six 100-m POC values in `table_S1.tex` differ from the
   manuscript by up to 0.005, because the manuscript gives the POC values of
-  10 or more to four significant digits (Section 5.7). `T = make_table_A1`
+  10 or more to four significant digits (Section 5.7). `T = make_table_S1`
   also returns the table, and
-  `make_table_A1('main_revised.tex')` compares every cell with the table in a
-  manuscript source file.
+  `make_table_S1('SI_revised_v5_clean.tex')` compares every cell with the table
+  in a manuscript source file.
 
 ## 4. Options
 
-The defaults reproduce the published figures; Figures 3c and S8a use the
+The defaults reproduce the published figures; Figures 3c and S9a use the
 domain integral. `make_all_figures` always uses the defaults.
 To use an option, run the script by hand.
 
 | Option | Script | Values (default first) | Effect | Output |
 |---|---|---|---|---|
-| `integral_area` | `plot_fig2` | `'patch'`, `'domain'` | Integrals of Figure 2e,f over the fertilized patch (as published) or over the OSP-1KM analysis domain (the integral of Figures 3c,d, S8 and 4 and Table A1) | `Fig2_domain` (`.png`, `.pdf`) |
-| `errorbar_stat` | `plot_fig3`, `plot_figS8` | `'pooled'`, `'subset'` | Statistic of the red and blue error bars (Section 5.3) | `Fig3_subset`, `FigS8_subset` |
-| `use_caption_seasons` | `plot_figS11` | `false`, `true` | Months of Figure S11(e,f): June-July and December-January (as published) or June-August and December-February | `FigS11_caption_seasons` |
-| `avg_months` | `plot_figS12` | `[6 7]`, any months within 6-9 | Months averaged in Figure S12; `[6 7 8]` gives June-August. The OIF run has coarse-grained fluxes for June-September only. | `FigS12_months_6_7_8` (for `[6 7 8]`) |
+| `integral_area` | `plot_fig2` | `'patch'`, `'domain'` | Integrals of Figure 2e,f over the fertilized patch (as published) or over the OSP-1KM analysis domain (the integral of Figures 3c-f and S9 and Table S1) | `Fig2_domain` (`.png`, `.pdf`) |
+| `use_dop` | `prep_nutrient_limitation`, `plot_figS8` | `false`, `true` | P limitation factor with DOC in place of DOP, as in the original code and the published Figure S8, or with DOP (Section 5.8) | `data/nutrient_limit_R1_DOP.mat`, `FigS8_DOP` |
+| `errorbar_stat` | `plot_fig3`, `plot_figS9` | `'pooled'`, `'subset'` | Statistic of the red and blue error bars (Section 5.3) | `Fig3_subset`, `FigS9_subset` |
+| `use_caption_seasons` | `plot_figS12` | `false`, `true` | Months of Figure S12(e,f): June-July and December-January (as published) or June-August and December-February | `FigS12_caption_seasons` |
+| `avg_months` | `plot_figS13` | `[6 7]`, any months within 6-9 | Months averaged in Figure S13; `[6 7 8]` gives June-August. The OIF run has coarse-grained fluxes for June-September only. | `FigS13_months_6_7_8` (for `[6 7 8]`) |
 | `uniform_30day_window` | `prep_validation` | `false`, `true` | Smoothing of the model series of Figure S1(a-e): `edata_freq*30` samples as in the original code (30/60/36/30 days at 1/4/12/25 km) or 30 days for every run (Section 5.4). Needs the intermediate products. | rewrites `data/valid_model_papa.mat`; run `plot_figS1` afterwards |
 | `do_fig1ab`, `do_pdfs`, `do_patches` | `prep_maps` | `true`, `false` | Rebuild the data of Figure 1a,b, of Figure 1c-e, and of the patch maps (Figures 1f-h and S3-S6) | `data/fig1_ab.mat`, `fig1_pdfs.mat`, the four `patchmaps_*.mat` |
 | `do_s4_only` | `prep_maps` | `false`, `true` | Rebuild only `patchmaps_S4_contours.mat` (the three switches above are then ignored) | `data/patchmaps_S4_contours.mat` |
@@ -287,16 +295,18 @@ analysis these are the composites with the tags LS11 and LS12 (Section 9.4).
 | Fig. 3a,b | mean FI; 60-day mean patch area | patch |
 | Fig. 3c | 60-day CO2 flux anomaly | domain |
 | Fig. 3d | variance partition of FI, patch area and the 60-day CO2 flux anomaly | domain (CO2) |
-| Fig. 4 | y: 60-day CO2 flux anomaly; x: (a) 60-day mean patch area, (b) patch-area weighted mean control-run PHYC, (c) patch-integrated control-run PHYC | y: domain; x: patch |
-| Fig. 5, S9 | Fe and DIC budget terms, upper 50 m, two-month window | domain |
+| Fig. 3e,f | y: 60-day CO2 flux anomaly; x: (e) 60-day mean patch area, (f) patch-integrated control-run PHYC | y: domain; x: patch |
+| Fig. 4, S10 | Fe and DIC budget terms, upper 50 m, two-month window | domain |
 | Fig. S7 | patch mean (area-weighted sum / patch area), maximum, minimum, 5th-95th percentiles | patch |
-| Fig. S8a | 60-day POC flux anomaly at 100 m | domain |
-| Fig. S8b-d | variance partition and correlations of the POC flux anomaly | domain |
-| Fig. S10 | Fe and DIC profiles, June-July mean | domain |
-| Table A1 | CO2 and POC flux anomalies; patch area; PHYC (Section 5.7) | domain; patch area: patch |
+| Fig. S9a | 60-day POC flux anomaly at 100 m | domain |
+| Fig. S9b-d | variance partition and correlations of the POC flux anomaly | domain |
+| Fig. S9e,f | y: 60-day POC (e) and CO2 (f) flux anomalies; x: patch-area weighted mean control-run MLD | y: domain; x: patch |
+| Fig. S9g,h | 60-day POC and CO2 flux anomalies by release month and resolution | domain |
+| Fig. S11 | Fe and DIC profiles, June-July mean | domain |
+| Table S1 | CO2 and POC flux anomalies; patch area; PHYC (Section 5.7) | domain; patch area: patch |
 
 - In the published figures, panels with patch integrals and panels with domain
-  integrals carry the same label, an integral with subscript A, which Table A1
+  integrals carry the same label, an integral with subscript A, which Table S1
   uses for domain integrals. After 60 days the domain integrals of Cases 1-3
   are 14-25 % (POC at 100 m, CO2) and 24-37 % (POC at 500 m) larger than the
   patch integrals.
@@ -307,13 +317,13 @@ analysis these are the composites with the tags LS11 and LS12 (Section 9.4).
 - **Missing days.** The domain composites of Cases 5, 8 and 11 have no data on
   2, 1 and 2 days of their 60-day windows, the first day of a month. These days
   are left out of the sums, as in the original analysis and the published
-  values. `make_table_A1` prints a warning about it.
+  values. `make_table_S1` prints a warning about it.
 - **Units.** Time-integrated fluxes are in mmol C (sums of daily integrals in
   mmol C d-1). The right axes in tons of carbon use 1 mmol C = 1.2e-8 t C
   (`C.mmolC_to_tC`, 12 g C per mol). The air-sea CO2 flux is positive into the
   ocean.
 
-### 5.3 Ensemble error bars (Figures 3a-c and S8a)
+### 5.3 Ensemble error bars (Figures 3a-c and S9a)
 
 The red and blue error bars are computed by `lib/ens_resolution_stats.m`,
 separately at each resolution. Standard deviations use N-1.
@@ -330,20 +340,20 @@ separately at each resolution. Standard deviations use N-1.
   from the three June runs (R1-R3) of each resolution, the subsets that the
   captions describe. The legend gives n from the data.
 
-**Variance partition (Figures 3d and S8b).** `lib/variance_two_way.m` computes
-a balanced two-way partition of the sum of squares (Appendix B of the
+**Variance partition (Figures 3d and S9b).** `lib/variance_two_way.m` computes
+a balanced two-way partition of the sum of squares (Text S1 of the Supporting Information of the
 article). It is applied to two subsets: R1 (Cases 1-12; release month x
 resolution) and June (Cases 1-3 and 13-18; release region x resolution).
 
-**Budgets (Figures 5 and S9).** Each budget term, OIF minus control, is
+**Budgets (Figures 4 and S10).** Each budget term, OIF minus control, is
 integrated over the upper 50 m and the analysis domain. It is accumulated over
 the days after the first day of the release month up to the end of the
 following month, keeping the days on which the domain sums of both runs are
 non-zero. The bars are ensemble means and the error bars +-1 standard
-deviation, over the 18 runs in Figure 5 and over the runs of each resolution
-or group in Figure S9. The numbers in Figure 5 are the mean term and its
+deviation, over the 18 runs in Figure 4 and over the runs of each resolution
+or group in Figure S10. The numbers in Figure 4 are the mean term and its
 standard deviation, both divided by the mean surface-flux term; the numbers in
-Figure S9 are the group-mean term divided by the group-mean surface-flux term.
+Figure S10 are the group-mean term divided by the group-mean surface-flux term.
 
 ### 5.4 Model-observation comparison (Figures S1 and S2)
 
@@ -384,15 +394,15 @@ and 21 and on the last day of each monthly file, June-September 2010:
 contour follows its date (16 colours, 4 per month); the 31 July contour is
 drawn in black on top of its coloured contour.
 
-### 5.6 Coarse-grained vertical fluxes (Figures S11 and S12)
+### 5.6 Coarse-grained vertical fluxes (Figures S12 and S13)
 
-- **Run.** All panels of Figure S11 show the full-year (2010) 1-km control run
+- **Run.** All panels of Figure S12 show the full-year (2010) 1-km control run
   without iron addition, `OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear`
   (`C.cg_ctrl`).
-- **Months of S11(e,f).** June-July and December-January means; the mean MLD
+- **Months of S12(e,f).** June-July and December-January means; the mean MLD
   lines are 32.6 m and 101.2 m. `use_caption_seasons = true` uses June-August
   and December-February (29.8 m and 101.9 m).
-- **Figure S12.** Control = the same full-year 1-km run; OIF = Case 1 (June
+- **Figure S13.** Control = the same full-year 1-km run; OIF = Case 1 (June
   release at R1, 1 km), whose coarse-grained fluxes cover 2 June-30 September.
   Both are averaged over June-July. The black line is the mean control-run MLD
   over the same days, drawn in all four panels. The 1-km control run paired
@@ -405,7 +415,7 @@ drawn in black on top of its coloured contour.
   i.e. without a 20-cell band along its open boundaries (208.3-219.7°E,
   46.2-57.7°N).
 
-### 5.7 Table A1, PHYC column
+### 5.7 Table S1, PHYC column
 
 - **As published.** The published values of the PHYC column are the 60-day sums
   of the domain-integrated surface phytoplankton carbon anomaly, OIF minus
@@ -413,15 +423,25 @@ drawn in black on top of its coloured contour.
   agree).
 - **As described by the caption.** The table caption describes the control-run
   PHYC integrated over the fertilized patch. That is the x-axis quantity of
-  Figure 4c (`xls_ctrlPHYC_int` in `data/ens_metrics.mat`).
-- `tables/table_A1.tex` reproduces the published column, and
-  `tables/table_A1.csv` holds both quantities (columns
-  `PHYC_published_dPHYC_domain_...` and `PHYCctrl_patch_Fig4c_...`).
+  Figure 3f (`xls_ctrlPHYC_int` in `data/ens_metrics.mat`).
+- `tables/table_S1.tex` reproduces the published column, and
+  `tables/table_S1.csv` holds both quantities (columns
+  `PHYC_published_dPHYC_domain_...` and `PHYCctrl_patch_Fig3f_...`).
 - Both are sums of 60 daily area integrals of a surface concentration, with
   units mmol m-3 x m2 x d = mmol m-1 d (1e12 in the table).
-- Compared with `main_revised.tex`, 174 of the 180 cells agree. The other six
-  are 100-m POC values of 10 or more, which the manuscript gives to four
-  significant digits.
+- Compared with `SI_revised_v5_clean.tex`, 228 of the 234 cells agree (13
+  columns, including the three t C columns). The other six are 100-m POC
+  values of 10 or more, which the manuscript gives to four significant digits.
+
+### 5.8 Limiting nutrient (Figure S8)
+
+`prep/prep_nutrient_limitation.m` computes the BEC limitation factors of N,
+Fe, P and Si for small phytoplankton, diatoms and diazotrophs from daily
+profiles at the R1 centre (station OIFCT) and takes the smallest. As in the
+original code, the P factor uses the DOC profile where the formula has DOP
+(position 12 of the station variable list of the BEC runs is DOC), so P is
+never limiting; with DOP (`use_dop = true`), P limits near the surface in early
+June in the OIF run. The default reproduces the published figure.
 
 ## 6. Folder layout
 
@@ -433,14 +453,14 @@ OIF_submeso_code/
 ├── THIRD_PARTY_NOTICES.md  third-party code, package-written replacements, external software
 ├── CITATION.cff            citation metadata
 ├── .zenodo.json            Zenodo metadata
-├── make_all_figures.m      driver: all figures and Table A1; make_all_figures(true) first rebuilds data/
+├── make_all_figures.m      driver: all figures and Table S1; make_all_figures(true) first rebuilds data/
 ├── oif_config.m            paths (environment variables), run names, constants
 ├── setup_paths.m           adds the package folders, M_Map and GSW to the MATLAB path
-├── plot/                   16 plot scripts (plot_fig1 ... plot_figS12; plot_figS5_S6 makes two figures)
-├── tables/                 make_table_A1.m and its outputs table_A1.csv, table_A1.tex
-├── prep/                   4 scripts that rebuild data/ from the intermediate products
+├── plot/                   16 plot scripts (plot_fig1 ... plot_figS13; plot_figS5_S6 makes two figures)
+├── tables/                 make_table_S1.m and its outputs table_S1.csv, table_S1.tex
+├── prep/                   6 scripts that rebuild data/ from the intermediate products
 ├── lib/                    helper functions (package-written and third-party, see THIRD_PARTY_NOTICES.md)
-├── data/                   15 MAT files with the processed data behind every figure (Section 7)
+├── data/                   17 MAT files with the processed data behind every figure (Section 7)
 ├── figures/                reference output of the plot scripts (PNG and PDF)
 ├── upstream/               author's script that computed the Figure 1c-e PDFs (not run by the package)
 └── external/               (not included) optional place for M_Map (external/m_map) and GSW (external/gsw)
@@ -458,7 +478,7 @@ with `scipy.io.loadmat` in Python.
   stated.
 - Depth is in m, negative downward, unless stated.
 - "OIF - control" is the difference of the OIF run and its control run.
-- Run order is Case 1-18 of Table A1 unless stated. Resolution index 1, 2, 3 =
+- Run order is Case 1-18 of Table S1 unless stated. Resolution index 1, 2, 3 =
   1, 4, 12 km.
 - Units are as stored. "Not recorded" means that neither the file nor the code
   states them.
@@ -467,9 +487,11 @@ with `scipy.io.loadmat` in Python.
 
 | File | Size | Written by | Used by | Contents |
 |---|---|---|---|---|
-| `budget_ensemble.mat` | 9 kB | `prep_budgets_profiles_coarsegrain` | Fig. 5, S9 | Fe and DIC budget terms of the 18 runs |
-| `coarsegrain_hovmoller.mat` | 0.7 MB | `prep_budgets_profiles_coarsegrain` | Fig. S11, S12 | coarse-grained vertical fluxes, MLD, Zeu |
-| `ens_metrics.mat` | 16 kB | `prep_timeseries_ensemble` | Fig. 3, 4, S8, Table A1 | 60-day metrics, FI, variance partition, correlations |
+| `budget_ensemble.mat` | 9 kB | `prep_budgets_profiles_coarsegrain` | Fig. 4, S10 | Fe and DIC budget terms of the 18 runs |
+| `coarsegrain_hovmoller.mat` | 0.7 MB | `prep_budgets_profiles_coarsegrain` | Fig. S12, S13 | coarse-grained vertical fluxes, MLD, Zeu |
+| `ens_metrics.mat` | 16 kB | `prep_timeseries_ensemble` | Fig. 3, S9, Table S1 | 60-day metrics, FI, variance partition, correlations |
+| `ens_mld.mat` | 3 kB | `prep_ensemble_mld` | Fig. S9e,f | control-run MLD under the patch and its regressions |
+| `nutrient_limit_R1.mat` | < 1 MB | `prep_nutrient_limitation` | Fig. S8 | limiting nutrient and limitation factor at the R1 centre |
 | `fig1_ab.mat` | 3.4 MB | `prep_maps` | Fig. 1a,b | WOA23 and model surface NO3, grid outlines, release regions |
 | `fig1_pdfs.mat` | 23 kB | `prep_maps` (copy of the cache of `upstream/`) | Fig. 1c-e | PDFs of Ro, S/f, `w - <w>` |
 | `obs_series2002.mat` | 2 kB | `prep_timeseries_ensemble` | Fig. S7 | SERIES 2002 observations |
@@ -477,8 +499,8 @@ with `scipy.io.loadmat` in Python.
 | `patchmaps_occurrence.mat` | 0.7 MB | `prep_maps` | Fig. 1f-h, S5, S6 | patch occurrence maps, daily FI |
 | `patchmaps_S3_july1.mat` | 1.1 MB | `prep_maps` | Fig. S3 | dFe, dChl and velocity on 1 July 2010 |
 | `patchmaps_S4_contours.mat` | 15.9 MB | `prep_maps` | Fig. S4 | dFe of the June-R1 runs on 16 dates |
-| `profile_Fe_DIC.mat` | 5 kB | `prep_budgets_profiles_coarsegrain` | Fig. S10 | Fe and DIC profiles, Cases 1-3 and controls |
-| `ts_patch_timeseries.mat` | 1.0 MB | `prep_timeseries_ensemble` | Fig. 2, S7, Table A1 | daily patch and domain statistics of the 18 runs |
+| `profile_Fe_DIC.mat` | 5 kB | `prep_budgets_profiles_coarsegrain` | Fig. S11 | Fe and DIC profiles, Cases 1-3 and controls |
+| `ts_patch_timeseries.mat` | 1.0 MB | `prep_timeseries_ensemble` | Fig. 2, S7, Table S1 | daily patch and domain statistics of the 18 runs |
 | `valid_model_papa.mat` | 2.0 MB | `prep_validation` | Fig. S1, S2 | model series and profiles at Ocean Station Papa |
 | `valid_obs_papa.mat` | 0.1 MB | `prep_validation` | Fig. S1, S2 | in situ, Argo and MODIS observations at Station Papa |
 | `valid_woa23_papa.mat` | 37 kB | `prep_validation` | Fig. S1, S2 | WOA23 climatology at Station Papa |
@@ -517,16 +539,16 @@ interior cells of the OSP-1KM grid (Section 5.6).
 
 | Field | Class, size | Units | Meaning |
 |---|---|---|---|
-| `cg.ctrl_run` | char | | full-year 1-km control run (Figure S11 and the control panels of Figure S12) |
-| `cg.oif_run` | char | | Case 1 run (OIF panels of Figure S12) |
-| `cg.months_S11` | cell 1×2 | month | `{[6 7], [12 1]}`: months averaged in Figure S11(e) and (f) |
-| `cg.months_S12` | double 1×2 | month | `[6 7]`: months averaged in Figure S12 |
+| `cg.ctrl_run` | char | | full-year 1-km control run (Figure S12 and the control panels of Figure S13) |
+| `cg.oif_run` | char | | Case 1 run (OIF panels of Figure S13) |
+| `cg.months_S12` | cell 1×2 | month | `{[6 7], [12 1]}`: months averaged in Figure S12(e) and (f) |
+| `cg.months_S13` | double 1×2 | month | `[6 7]`: months averaged in Figure S13 |
 | `cg.time` | double 365×1 | datenum | days of 2010 (time axis of `w50`, `valid50`, `valid`, `mld_all`) |
 | `cg.scale` | double 69×1 | km | filter scales l (1.0-621 km) |
 | `cg.dep` | double 20×1 | m, positive downward | depths of `wz_month` (5-150 m) |
 | `cg.dep50` | double 1×1 | m | depth of the Hovmöller panels (50 m) |
 | `cg.mld_all` | double 365×1 | m, positive downward | daily mean mixed-layer depth of the control run over the analysis domain (LS12 composite; the MLD definition of the model-output caches is not recorded in this package); NaN on one day |
-| `cg.mld_date`, `cg.mld` | double 364×1 | datenum, m | the days with an MLD value and those values (Figure S11a) |
+| `cg.mld_date`, `cg.mld` | double 364×1 | datenum, m | the days with an MLD value and those values (Figure S12a) |
 | `cg.mld_all_oif` | double 365×1 | m | the same for the Case 1 run; all NaN (the cache holds no values) |
 | `cg.zeu_time` | double 12×1 | datenum | 15th of each month |
 | `cg.zeu` | double 12×1 | m, positive downward | monthly mean euphotic depth of the control run (mean over the cells of the OSP-1KM domain without its 15-cell boundary band) |
@@ -550,27 +572,50 @@ window of Section 5.2.
 |---|---|---|---|
 | `README` | char | | description |
 | `run` | cell 18×1 | | OIF run directory |
-| `label` | cell 18×1 | | experiment label (Table A1), e.g. `1KM_Jun`, `4KM_Jun_R2` |
+| `label` | cell 18×1 | | experiment label (Table S1), e.g. `1KM_Jun`, `4KM_Jun_R2` |
 | `res_id`, `exp_id` | double 18×1 | | resolution index (1, 2, 3 = 1, 4, 12 km); release experiment (row of `C.oif`, see `budget_ensemble.mat`) |
 | `month`, `region`, `res` | cell 18×1 | | release month (`'Jun'` ...), region (`'R1'` ...), resolution (`'1KM'` ...) |
 | `month_id`, `region_id` | double 18×1 | | index into `month_names`, `region_names` |
 | `month_names`, `region_names` | cell 4×1, 3×1 | | `{Jun, May, Jul, Aug}`, `{R1, R2, R3}` |
-| `patch_area_60` | double 18×1 | km2 | 60-day mean surface patch area (Figure 3b, Table A1) |
-| `int_patch_CO2`, `int_patch_POC100`, `int_patch_POC500` | double 18×1 | mmol C | 60-day sum of the daily patch integral of the OIF - control air-sea CO2 flux, POC flux at 100 m and POC flux at 500 m (Figures 3c, S8a with `integral_area = 'patch'`) |
-| `int_dom_CO2`, `int_dom_POC100`, `int_dom_POC500` | double 18×1 | mmol C | the same over the analysis domain; equal to `xls_CO2`, `xls_POC100`, `xls_POC500` (Figures 3c, S8a, Table A1) |
+| `patch_area_60` | double 18×1 | km2 | 60-day mean surface patch area (Figure 3b, Table S1) |
+| `int_patch_CO2`, `int_patch_POC100`, `int_patch_POC500` | double 18×1 | mmol C | 60-day sum of the daily patch integral of the OIF - control air-sea CO2 flux, POC flux at 100 m and POC flux at 500 m (Figures 3c, S9a with `integral_area = 'patch'`) |
+| `int_dom_CO2`, `int_dom_POC100`, `int_dom_POC500` | double 18×1 | mmol C | the same over the analysis domain; equal to `xls_CO2`, `xls_POC100`, `xls_POC500` (Figures 3c, S9a, Table S1) |
 | `units` | struct | | unit strings: `units.patch_area_60` (km2), `units.int` (the `int_*` integrals), `units.xls` (the `xls_*` values) |
 | `fi_series` | cell 18×1 of double 1×60 or 1×61 | | daily FI = `P^2/(4*pi*A)`, day 2 of the release month to the end of the following month |
 | `fi_time` | cell 18×1 | datenum | days of `fi_series` |
 | `fi_mean` | double 18×1 | | mean FI (Figure 3a); equal to `meanFI_P2` of `patchmaps_occurrence.mat` to 7e-15 |
-| `xls_CO2`, `xls_POC100`, `xls_POC500` | double 18×1 | mmol C | 60-day domain integrals from the summary tables of the original analysis (`Statistics_InOutPatch_*.xlsx`); used for Figures 3d, 4, S8b-d and Table A1 |
-| `xls_POC` | double 18×1 | mmol C | first POC row of that table (= `xls_POC100`); y-axis of Figure S8c,d |
+| `xls_CO2`, `xls_POC100`, `xls_POC500` | double 18×1 | mmol C | 60-day domain integrals from the summary tables of the original analysis (`Statistics_InOutPatch_*.xlsx`); used for Figures 3d-f, S9b-d and Table S1 |
+| `xls_POC` | double 18×1 | mmol C | first POC row of that table (= `xls_POC100`); y-axis of Figure S9c,d |
 | `xls_CO2_patchfile` | double 18×1 | mmol C | CO2 integral from the patch table (= `int_patch_CO2`) |
-| `xls_area_CO2`, `xls_area_POC`, `xls_area_all` | double 18×1 | km2 | 60-day mean patch area from the patch table: CO2 rows (x-axis of Figure 4a), POC rows (x-axis of Figure S8c), mean of all rows (= `patch_area_60` to 5e-16) |
-| `xls_ctrlPHYC_wavg` | double 18×1 | mmol C m-3 | patch-area weighted mean surface PHYC of the control run over the 60 days (Figure 4b) |
-| `xls_ctrlPHYC_int` | double 18×1 | mmol C m-1 d | sum of the 60 daily patch integrals of the control-run surface PHYC (Figure 4c, Figure S8d; Section 5.7) |
+| `xls_area_CO2`, `xls_area_POC`, `xls_area_all` | double 18×1 | km2 | 60-day mean patch area from the patch table: CO2 rows (x-axis of Figure 3e), POC rows (x-axis of Figure S9c), mean of all rows (= `patch_area_60` to 5e-16) |
+| `xls_ctrlPHYC_wavg` | double 18×1 | mmol C m-3 | patch-area weighted mean surface PHYC of the control run over the 60 days (Figure 4b of the original submission; not plotted in the revision) |
+| `xls_ctrlPHYC_int` | double 18×1 | mmol C m-1 d | sum of the 60 daily patch integrals of the control-run surface PHYC (Figure 3f, Figure S9d; Section 5.7) |
 | `var` | struct | % | variance partition: `metric` (FI, PatchArea, CO2_FLUX, POC_FLUX_100m, POC_FLUX_500m); `pct_R1` (5×3: release time, resolution, interaction; Cases 1-12); `pct_June` (5×3: region, resolution, interaction; Cases 1-3, 13-18); `R1_names`, `June_names`; `pct_R1_patchCO2`, `pct_June_patchCO2`, `pct_R1_patchPOC100`, `pct_June_patchPOC100` (the same applied to the patch integrals; not plotted). Inputs: `fi_mean`, `xls_area_all`, `xls_CO2`, `xls_POC100`, `xls_POC500`. |
-| `corr` | struct | | six regressions, each a struct with `x`, `y` (18×1), `fit_coef` (slope and intercept of the least-squares line), `R` (Pearson) and `P` (p-value): `dCO2_FLUX_int_vs_PatchArea`, `dCO2_FLUX_int_vs_ctrlPHYC_wavg`, `dCO2_FLUX_int_vs_ctrlPHYC_int` (Figure 4a-c; y = `xls_CO2`) and `dPOC_FLUX_int_vs_PatchArea`, `dPOC_FLUX_int_vs_ctrlPHYC_wavg`, `dPOC_FLUX_int_vs_ctrlPHYC_int` (y = `xls_POC`; Figure S8c,d use the first and the third) |
+| `corr` | struct | | six regressions, each a struct with `x`, `y` (18×1), `fit_coef` (slope and intercept of the least-squares line), `R` (Pearson) and `P` (p-value): `dCO2_FLUX_int_vs_PatchArea`, `dCO2_FLUX_int_vs_ctrlPHYC_wavg`, `dCO2_FLUX_int_vs_ctrlPHYC_int` (Figure 3e,f use the first and the third; y = `xls_CO2`) and `dPOC_FLUX_int_vs_PatchArea`, `dPOC_FLUX_int_vs_ctrlPHYC_wavg`, `dPOC_FLUX_int_vs_ctrlPHYC_int` (y = `xls_POC`; Figure S9c,d use the first and the third) |
 | `check_vs_cache` | struct | | differences of the recomputed values from the cached results of the original analysis (all below 5e-14): `var_stacked_R1`, `var_stacked_June`, `var_FilamentationIndex`, `var_PatchArea`, `var_CO2_FLUX`, `var_POC_FLUX_100m`, `var_POC_FLUX_500m` (maximum absolute difference of the variance percentages) and `corr_<regression>` for the six regressions of `corr` (1×4: difference of R, difference of P, maximum relative difference of x and of y) |
+
+### `ens_mld.mat`
+
+| Variable | Class, size | Units | Meaning |
+|---|---|---|---|
+| `README` | char | | description |
+| `label` | cell 18×1 | | experiment label (Case order, as in `ens_metrics.mat`) |
+| `mld_ctrl_wavg` | double 18×1 | m | patch-area weighted mean mixed-layer depth (`hbls`, positive down) of the control run over the 60-day window (x-axis of Figure S9e,f) |
+| `corr` | struct | | `dPOC_FLUX_int_vs_ctrlMLD_wavg` (y = `xls_POC`, Figure S9e) and `dCO2_FLUX_int_vs_ctrlMLD_wavg` (y = `xls_CO2`, Figure S9f), each with `x`, `y`, `fit_coef`, `R`, `P` |
+| `check_vs_cache` | struct | | difference of R and p from the cached results of the original analysis (zero) |
+| `units` | struct | | unit strings |
+
+### `nutrient_limit_R1.mat`
+
+| Variable | Class, size | Units | Meaning |
+|---|---|---|---|
+| `README` | char | | description |
+| `ctrl`, `oif` | struct | | 1-km control run and Case 1: `time` (1×nt, datenum), `depth` (100×1, m, negative down), `lim_type` (3×100×nt; 1 N, 2 Fe, 3 P, 4 Si), `lim_factor` (3×100×nt, smallest limitation factor), `run`; `oif.dFe` (100×nt, mmol m-3, OIF - control dissolved Fe) |
+| `phyto`, `type_names` | cell | | `{SP, DIAT, DIAZ}` (first dimension), `{N, Fe, P, Si}` |
+| `K` | struct | mmol m-3 | half-saturation constants (Section 5.8) |
+| `time_lim` | double 1×2 | datenum | plotted window (first two months of the OIF run) |
+| `patch_threshold` | double | mmol m-3 | patch contour (2e-5) |
+| `use_dop`, `station`, `station_lonlat` | | | options and station (OIFCT, 145.95°W, 52.27°N) |
 
 ### `fig1_ab.mat`
 
@@ -794,8 +839,8 @@ the decadal-average fields (`decav`), oxygen and nitrate the all-period fields
 
 ## 8. Rebuilding data/ from the intermediate products
 
-`make_all_figures(true)` first runs the four prep scripts and then all plot
-scripts. If a prep script fails, the plot scripts and `make_table_A1` are
+`make_all_figures(true)` first runs the six prep scripts and then all plot
+scripts. If a prep script fails, the plot scripts and `make_table_S1` are
 skipped, so that no figure is drawn from a partly rebuilt `data/`:
 
 ```sh
@@ -831,13 +876,13 @@ place of missing inputs.
   covers with the land mask, and by up to about 0.2 µmol kg-1 at filled cells
   next to observed cells. Observed cells are unchanged.
 - About 2 minutes of run time in our test (R2025b, Apple-silicon Mac, inputs
-  on a local disk): about 30 s for the four prep scripts (20 s of it in
+  on a local disk): about 30 s for the six prep scripts (20 s of it in
   `prep_maps`, which opens about 11 GB of daily model fields) and about 95 s
   for the plots and the table. It takes longer when the inputs first have to
   be fetched from network or cloud storage (about 8 minutes for the prep
   scripts in a test that fetched 4.1 GB).
 
-With the inputs used for the article, a rebuild reproduces the 15 files in
+With the inputs used for the article, a rebuild reproduces the 17 files in
 `data/` exactly, apart from the creation time stored in the MAT-file header.
 The prep scripts write only to `data/`.
 
@@ -860,6 +905,8 @@ a run directory of Section 9, `MM` a month)
 | | `ROMS/<OIF run>/Analysis/figures/<VAR>_time_series_at_locations_of_maximum_difference_patch_center_OSPnw5_domain_RMSpg15_2em5_50.mat` (domain composites; VAR = POC_FLUX, CO2_FLUX, PHYC) | 54 | 4.0 MB |
 | | in `ROMS/OSP1KM_INI_BEC_V2_OIF_Jun_diaT2_nw5/Analysis/figures/`: `Statistics_InOutPatch_patch_center_OSPnw5_domain_RMSpg15_2em5_50.xlsx`, `Statistics_InOutPatch_patch_center_patch_stats_OSPnw5_RMSpg15_2em5_50.xlsx` (60-day summary tables), `FilamentationIndex_Ensemble_by_resolution_first2months<18 run IDs>.mat` (daily FI), `VarianceDecomposition_*_patch_center_patch_stats_OSPnw5_RMSpg15_2em5_50.mat` and `Correlation_*_patch_center_patch_stats_OSPnw5_RMSpg15_2em5_50.mat` (cached results, used only for checks) | 15 | 0.2 MB |
 | | `Iron/Boyd2005_Figure2_data_table.mat` (SERIES 2002, digitised) | 1 | < 0.1 MB |
+| `prep_ensemble_mld` | in `ROMS/OSP1KM_INI_BEC_V2_OIF_Jun_diaT2_nw5/Analysis/figures/`: `Correlation_dPOC_FLUX_int_vs_ctrlMLD_wavg_patch_center_patch_stats_OSPnw5_RMSpg15_2em5_50.mat`, `Correlation_dCO2_FLUX_int_vs_ctrlMLD_wavg_...mat` (cached control-run MLD under the patch; also needs `data/ens_metrics.mat`) | 2 | < 0.1 MB |
+| `prep_nutrient_limitation` | `ROMS/<run>/Analysis/figures/vertical_profile_monthly_2010_from_ncfile_OIFCT.mat` of the 1-km control run and Case 1 | 2 | 5.9 MB |
 | `prep_budgets_profiles_coarsegrain` | `ROMS/<OIF run>/Analysis/figures/<TERM>_time_series_at_locations_of_maximum_difference_patch_center_OSPnw5_domain_RMSpg15_2em5_50.mat` (budget composites; the 19 terms of `budget_ensemble.mat` × 18 runs) | 342 | 9.8 MB |
 | | `MLD_time_series_at_locations_of_maximum_difference_patch_center_OSPnw5_domain_RMSpg15_2em5_50.mat` of the full-year 1-km control run and of Case 1 | 2 | 0.1 MB |
 | | `ROMS/<run>/Analysis/figures/zslice_file_domain_mean_profile67.mat` of Cases 1-3 and their control runs | 6 | 0.3 MB |
@@ -871,7 +918,7 @@ The grids and the WOA23 nitrate files used by both `prep_validation` and
 
 ## 9. Provenance
 
-### 9.1 The 18 OIF experiments (Table A1)
+### 9.1 The 18 OIF experiments (Table S1)
 
 Iron was added continuously for one week at 0.02 mol m-2 yr-1 within a
 50 km × 50 km box (Methods of the article), starting on the 2nd day of the
@@ -914,7 +961,7 @@ run names are also in `oif_config.m` (`C.oif`, `C.ctrl`).
 | | 4 km | `NEPAC4KM_INI_BEC_V2_daily_diaT2_nw5_allyear` | 97 |
 | | 12 km | `PACMED12KM_INI_BEC_V2_param2_daily_diaT2` (the 12-km control run) | 71 |
 | | 25 km | `PACMED25KM_INI_BEC_V2_param2` | 49 |
-| Figure S11; control panels of Figure S12 | 1 km | `OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear` (full year 2010, no iron addition) | 98 |
+| Figure S12; control panels of Figure S13 | 1 km | `OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear` (full year 2010, no iron addition) | 98 |
 | Figure 1b | 4 km | `NEPAC4KM_INI_BEC_V2_daily_diaT2` (4-km control run) | 67 |
 | Figure 1c-e | 12, 4, 1 km | the June-R1 OIF runs (Cases 3, 2, 1) | 72, 68, 96 |
 
@@ -954,7 +1001,7 @@ the patch definition (`patch_define = '_2em5_50'`) and the release regions
 | Term | Meaning |
 |---|---|
 | PACMED-12KM, NEPAC-4KM, OSP-1KM | the nested configurations: Pacific parent domain at 12 km, eastern North Pacific subdomain at 4 km, child domain around OSP at 1 km. PACMED-25KM is the 25-km Pacific configuration used for the spin-up (Methods) and as the 25-km run of Figures S1 and S2. |
-| Case 1-18 | experiment numbers of Table A1 (Section 9.1); also the run order of `ens_metrics.mat` and `ts_patch_timeseries.mat` |
+| Case 1-18 | experiment numbers of Table S1 (Section 9.1); also the run order of `ens_metrics.mat` and `ts_patch_timeseries.mat` |
 | R1, R2, R3 | release regions (Section 9.1) |
 | Run directory names | `<configuration>_INI_BEC_V2[_param2]_<type>[...]`. `OIF_<Mon>`: OIF run released in that month; `_reg2`, `_reg3`: release region R2 or R3 (no suffix: R1); `daily`: run without iron addition; `_allyear`: run covering all of 2010; `nw5`: in the 1-km run names, the 1-km grid `ospnw5_grd.nc` (the full-year 4-km run carries the same tag). `INI`, `BEC_V2`, `param2`, `diaT` and `diaT2` are version tags of the authors' run naming and are not documented further here. |
 | Run ID | number of a run in the run list (`domain_list`) of `PACMED12_Process_param_8p6z.m`, for example 96 = Case 1 and 98 = the full-year 1-km control run. It appears in comments ("domain 98"), in `pdfmeta.datasets.domain_num` of `fig1_pdfs.mat` and in the name of the FI cache, `FilamentationIndex_Ensemble_by_resolution_first2months<run IDs>.mat`, which lists the run IDs of the 18 OIF runs in Case order (96, 68, 72, 105, ..., 109, separated by two or three spaces; the exact name is in `prep/prep_timeseries_ensemble.m`). |
@@ -976,9 +1023,9 @@ the patch definition (`patch_define = '_2em5_50'`) and the release regions
 | Component | Files | Licence | Used for |
 |---|---|---|---|
 | cbrewer, Charles Robert (MATLAB File Exchange 34087, no longer on File Exchange) | `lib/cbrewer.m` and `lib/interpolate_cbrewer.m` (both modified, marked in the headers), `lib/colorbrewer.mat` | BSD 2-Clause, `LICENSES/cbrewer_BSD-2-Clause.txt` | colours of Figures 1, S1, S2, S4 |
-| ColorBrewer colour schemes, Cynthia A. Brewer, Mark Harrower and The Pennsylvania State University | colour tables in `lib/colorbrewer.mat`; the 'Dark2' colours written out in `oif_config.m` and `lib/oif_ens_style.m` | Apache 2.0, `LICENSES/Apache-2.0.txt` | through cbrewer; run and month colours of Figures 2-4, S7-S9 |
+| ColorBrewer colour schemes, Cynthia A. Brewer, Mark Harrower and The Pennsylvania State University | colour tables in `lib/colorbrewer.mat`; the 'Dark2' colours written out in `oif_config.m` and `lib/oif_ens_style.m` | Apache 2.0, `LICENSES/Apache-2.0.txt` | through cbrewer; run and month colours of Figures 2-4, S7-S10 |
 | inpaintn, Damien Garcia (MATLAB File Exchange 27994) | `lib/inpaintn.m` | BSD 3-Clause, `LICENSES/inpaintn_BSD-3-Clause.txt` | gap filling of the WOA23 field of Figure 1a (`prep_maps`) |
-| cmocean colour maps 'balance' and 'amp', Kristen M. Thyng; MATLAB tables by Chad A. Greene | the colour tables in `lib/oif_cmocean.m` | MIT, `LICENSES/cmocean_MIT.txt` | Figures 1f-h, S5, S6, S11, S12 |
+| cmocean colour maps 'balance' and 'amp', Kristen M. Thyng; MATLAB tables by Chad A. Greene | the colour tables in `lib/oif_cmocean.m` | MIT, `LICENSES/cmocean_MIT.txt` | Figures 1f-h, S5, S6, S12, S13 |
 | M_Map 1.4, Rich Pawlowicz (not included) | | its own licence | map figures |
 | TEOS-10 GSW Oceanographic Toolbox (not included) | | its own licence | `prep_validation` |
 | MATLAB, The MathWorks (not included) | | commercial | everything |
@@ -1067,12 +1114,12 @@ the Global Ocean Observing System.
 ## 11. Licence and citation
 
 - **Code.** The code written for this package, the top-level scripts, `plot/`,
-  `prep/`, `tables/make_table_A1.m`, the package-written files in `lib/` and the
+  `prep/`, `tables/make_table_S1.m`, the package-written files in `lib/` and the
   author's script in `upstream/`, is released under the MIT License (`LICENSE`).
 - **Third-party code** in `lib/` keeps its own licence (Section 10.1,
   `THIRD_PARTY_NOTICES.md`, `LICENSES/`).
 - **Data, tables and figures.** The files in `data/`, the tables
-  `tables/table_A1.csv` and `tables/table_A1.tex` and the figures in `figures/`
+  `tables/table_S1.csv` and `tables/table_S1.tex` and the figures in `figures/`
   are released under the Creative Commons Attribution 4.0 International licence
   (CC BY 4.0, `LICENSES/CC-BY-4.0.txt`). Third-party data contained in `data/`
   remain under the terms of their providers (Section 10.2).
@@ -1082,8 +1129,8 @@ machine-readable metadata are in `CITATION.cff` and `.zenodo.json`.
 
 - Li, D., Bianchi, D., Damien, P., Guiet, J., Pham, A. L.-D., Feng, L.,
   McGillicuddy, D. J., Jr., Buesseler, K. O., Liu, Z., Chai, F., & Xiu, P.
-  (in review). Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific. Geophysical Research Letters.
+  (in review). Background Conditions and Patch Dispersion Shape the Responses to Iron Fertilization in the Subarctic Eastern North Pacific. Geophysical Research Letters.
 - Li, D., Bianchi, D., Damien, P., Guiet, J., Pham, A. L.-D., Feng, L.,
   McGillicuddy, D. J., Jr., Buesseler, K. O., Liu, Z., Chai, F., & Xiu, P.
-  (2026). Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific (Version 1.0.0)
+  (2026). Code and data for: Background Conditions and Patch Dispersion Shape the Responses to Iron Fertilization in the Subarctic Eastern North Pacific (Version 1.0.0)
   [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX

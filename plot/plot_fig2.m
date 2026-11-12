@@ -7,10 +7,10 @@
 %
 %   Differences from the caption (the published panels are reproduced):
 %   the caption says that (e,f) are integrated over the OSP-1KM domain, and
-%   their labels read int_A, the notation of Table A1 for domain integrals;
+%   their labels read int_A, the notation of Table S1 for domain integrals;
 %   the published curves are sums over the fertilized patch (dFe > 2e-5
 %   mmol m-3 within that domain), as in the original analysis. After 60 days
-%   the whole-domain integrals, which the text and Table A1 quote, are
+%   the whole-domain integrals, which the text and Table S1 quote, are
 %   14-25% (POC at 100 m, CO2) and 24-37% (POC at 500 m) larger. The 500 m
 %   curves are dash-dotted (caption: dashed).
 %

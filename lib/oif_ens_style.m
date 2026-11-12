@@ -1,5 +1,5 @@
 function S = oif_ens_style(E)
-%OIF_ENS_STYLE Colours and markers of the 18 ensemble members (Figs. 3, 4, S8).
+%OIF_ENS_STYLE Colours and markers of the 18 ensemble members (Figs. 3, S9).
 %
 %   S = oif_ens_style(E)   with E loaded from data/ens_metrics.mat
 %
@@ -23,7 +23,7 @@ end
 S.region_face = [0.6 0.6 0.6];
 S.msize = 80;                                                 % scatter size of the members
 S.errorbar = {'LineWidth', 1.8, 'MarkerSize', 7, 'CapSize', 8}; % ensemble mean +/- std
-% variance-partition colours (Fig. 3d, S8b)
+% variance-partition colours (Fig. 3d, S9b)
 S.col_reg  = [0.45 0.30 0.65];
 S.col_time = [0.85 0.55 0.13];
 S.col_res  = [0.20 0.55 0.75];

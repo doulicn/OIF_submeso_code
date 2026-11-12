@@ -5,7 +5,7 @@ message: >-
   tables and figures under CC BY 4.0 (see README.md and LICENSE).
 type: software
 title: >-
-  Code and data for: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+  Code and data for: Background Conditions and Patch Dispersion Shape the Responses to Iron Fertilization in the Subarctic Eastern North Pacific
 version: 1.0.0
 date-released: 2026-11-03
 # Placeholder: replace with the DOI that Zenodo assigns at release.
@@ -17,7 +17,7 @@ license:
 abstract: >-
   MATLAB code and processed output of nested ROMS-BEC simulations (1, 4 and
   12 km) of ocean iron fertilization near Ocean Station Papa that reproduce
-  Figures 1-5, Supporting Information Figures S1-S12 and Table A1 of the
+  Figures 1-4, Supporting Information Figures S1-S13 and Table S1 of the
   article. The plot scripts read only the processed data in data/; the prep
   scripts document how data/ was built from intermediate model products.
 keywords:
@@ -67,7 +67,7 @@ authors:
     affiliation: "State Key Laboratory of Marine Environmental Science & College of Ocean and Earth Sciences, Xiamen University, Xiamen, China"
 preferred-citation:
   type: article
-  title: Processes Regulating the Response to Ocean Iron Fertilization in the Subarctic Eastern North Pacific
+  title: Background Conditions and Patch Dispersion Shape the Responses to Iron Fertilization in the Subarctic Eastern North Pacific
   journal: Geophysical Research Letters
   # In review; CFF has no "in review" status, so "submitted" is used.
   status: submitted

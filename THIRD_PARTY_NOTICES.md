@@ -6,7 +6,7 @@ licence texts are in the folder `LICENSES/`. All other code files, namely the
 top-level scripts and the files in `lib/`, `plot/`, `prep/` and `tables/`
 (written for this package) and the author's analysis script in `upstream/`,
 are under the MIT License (`LICENSE`). The data in `data/`, the tables
-(`tables/table_A1.csv`, `tables/table_A1.tex`) and the figures in `figures/`
+(`tables/table_S1.csv`, `tables/table_S1.tex`) and the figures in `figures/`
 are under CC BY 4.0 (`LICENSE`, `LICENSES/CC-BY-4.0.txt`).
 
 Section 2 lists the package-written files that replace helper functions of the
@@ -52,8 +52,8 @@ require, are listed in `README.md`.
 - **Files:** the colour tables in `lib/colorbrewer.mat`, used through
   `cbrewer.m`, and the first four 'Dark2' RGB values, written out in
   `oif_config.m` (`C.col_res`, the colours of the 1, 4 and 12 km runs in
-  Figs. 2, S7 and S9) and `lib/oif_ens_style.m` (the month colours of Figs.
-  3, 4 and S8). Apart from these values, both files are package code under
+  Figs. 2, S7 and S10) and `lib/oif_ens_style.m` (the month colours of Figs.
+  3, 4 and S9). Apart from these values, both files are package code under
   the MIT License (`LICENSE`).
 - **Authors:** Cynthia A. Brewer, Mark Harrower and The Pennsylvania State
   University.
@@ -120,7 +120,7 @@ require, are listed in `README.md`.
   effective and accurate colormap selection, Oceanography, 29(3), 9-13,
   <https://doi.org/10.5670/oceanog.2016.66>.
 - **Used by:** `lib/oif_occurrence_panel.m` ('amp'; Figs. 1f-h, S5 and S6),
-  `plot/plot_figS11.m` and `plot/plot_figS12.m` ('balance').
+  `plot/plot_figS12.m` and `plot/plot_figS13.m` ('balance').
 
 ## 2. Package-written replacements of helpers of the original analysis code
 
@@ -134,7 +134,7 @@ the replaced functions and is therefore not part of the package.
 |---|---|---|
 | `lib/fft_lowpass.m` | `smooft.m`, `realft.m` and `four1.m`, MATLAB translations of the Numerical Recipes routines SMOOFT, REALFT and FOUR1, whose licence does not permit redistribution. `fft_lowpass` implements the FFT smoothing method described by Press et al. (1986, Numerical Recipes, 1st ed., sec. 13.9, 'Smoothing of Data') with `fft` and `ifft`. | Relative difference at most 7.1e-15 in double precision (1,804 random series) and 7e-7 in single precision (902 random series). For the 20 model series smoothed for Fig. S1: at most 1.8e-14 (relative 1.8e-15) in double precision, and at most 1.8e-7 of the series maximum in single precision (up to 15 units in the last place at the smallest chlorophyll values), far too small to show in the figure. |
 | `lib/roms_zlevs.m` | `zlevs4.m` of ROMSTOOLS (P. Penven; modified by Y. Uchiyama and E. Mason), licensed under the GPL, version 2 or later. `roms_zlevs` implements the ROMS vertical-coordinate equations (ROMS wiki page 'Vertical S-coordinate'; Shchepetkin and McWilliams 2005, 2009). | Depths agree to round-off: at most 1.1e-11 m in random cases with water depths up to 6000 m (1.8e-12 m, relative 5e-16, for the vertical-coordinate type used here), and 9.1e-13 m for the station columns of Figs. S1 and S2. |
-| `lib/log_pm.m` | A helper of unknown author and licence (dated 2021-10-08). | Bitwise identical outputs, including all arrays plotted in Figs. S11 and S12. |
+| `lib/log_pm.m` | A helper of unknown author and licence (dated 2021-10-08). | Bitwise identical outputs, including all arrays plotted in Figs. S12 and S13. |
 | `lib/rot.m` | A helper of unknown author and licence. | Bitwise identical. |
 | `lib/redblue.m` | `redblue` by A. Auton (MATLAB File Exchange 25536, BSD licence). | Bitwise identical. |
 | `lib/oif_cmocean.m` | A copy of Greene's `cmocean.m` that a third party had extended with further colour maps, including MATLAB's parula and the Turbo colour map. Only the function code is new; the tables are those of section 1.4. | Bitwise identical colour maps for all calls made by the package. |

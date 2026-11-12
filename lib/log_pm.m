@@ -26,7 +26,7 @@ function [log_data, minmax, tick_pos, tick_label] = log_pm(data, order_min, orde
 %   name and interface of a helper used in the original analysis, whose
 %   author and license are unknown, contains none of its code, and
 %   reproduces its outputs exactly (checked before release). Used by
-%   lib/plot_log_contour.m (Figs. S11 and S12).
+%   lib/plot_log_contour.m (Figs. S12 and S13).
 
 nd = floor(order_max - order_min);          % number of whole decades shown
 if ~(nd >= 1)

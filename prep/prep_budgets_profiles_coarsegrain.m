@@ -1,11 +1,11 @@
-%PREP_BUDGETS_PROFILES_COARSEGRAIN  Build the compact data files for Fig. 5 and Figs. S9-S12.
+%PREP_BUDGETS_PROFILES_COARSEGRAIN  Build the compact data files for Fig. 4 and Figs. S10-S13.
 %
 %   Reads intermediate products in C.roms_dir/<run>/Analysis/figures/ (ROMS/
 %   folder of the data root C.box_root, environment variable OIF_DATA_ROOT;
 %   see oif_config.m) and writes
-%     data/budget_ensemble.mat        (Fig. 5, Fig. S9)
-%     data/profile_Fe_DIC.mat         (Fig. S10)
-%     data/coarsegrain_hovmoller.mat  (Fig. S11, Fig. S12)
+%     data/budget_ensemble.mat        (Fig. 4, Fig. S10)
+%     data/profile_Fe_DIC.mat         (Fig. S11)
+%     data/coarsegrain_hovmoller.mat  (Fig. S12, Fig. S13)
 %
 %   Provenance: re-implements blocks of the original analysis scripts
 %   PACMED12_Process_budget.m (flags OIF_budgets_times_series_cmp_more, icomb
@@ -123,7 +123,7 @@ budget.note = ['Integral of data_stats_OIF(:,7,k) (area-integrated 0-50 m tenden
     'keeping days where both OIF and control are non-zero (PACMED12_Process_budget.m, icomb 31).'];
 save(fullfile(C.data_dir, 'budget_ensemble.mat'), 'budget', '-v7');
 
-%% ======================= 2. Fe / DIC profiles (Fig. S10) =================
+%% ======================= 2. Fe / DIC profiles (Fig. S11) =================
 prof.run_oif  = C.oif(1,:);  prof.run_ctrl = C.ctrl;  prof.res_label = C.res_label;
 for ires = 1:3
     P1 = load(fullfile(figdir(C.oif{1,ires}), 'zslice_file_domain_mean_profile67.mat'), 'profile');
@@ -137,17 +137,17 @@ prof.dep = squeeze(P1.profile.dep);            % positive depth (m)
 prof.units = 'mmol m-3; analysis-domain mean, June-July';
 save(fullfile(C.data_dir, 'profile_Fe_DIC.mat'), 'prof', '-v7');
 
-%% ======================= 3. Coarse-graining fluxes (Figs. S11, S12) =======
+%% ======================= 3. Coarse-graining fluxes (Figs. S12, S13) =======
 ctrl_run = 'OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear';   % domain 98 (full-year 1 km control)
 oif_run  = C.oif{1,1};                                    % June R1 1 km (Case 1)
 ilay = 10;              % 50 m layer
 zmax = 150;             % keep depths <= 150 m (plots show 0-120 m)
 
-% months averaged in the published depth-scale panels (plot_figS11.m,
-% plot_figS12.m): S11(e) 'summer' = Jun-Jul, S11(f) 'winter' = Dec-Jan,
-% S12(a-d) = Jun-Jul
-cg.months_S11 = {[6 7], [12 1]};
-cg.months_S12 = [6 7];
+% months averaged in the published depth-scale panels (plot_figS12.m,
+% plot_figS13.m): S12(e) 'summer' = Jun-Jul, S12(f) 'winter' = Dec-Jan,
+% S13(a-d) = Jun-Jul
+cg.months_S12 = {[6 7], [12 1]};
+cg.months_S13 = [6 7];
 cg.ctrl_run = ctrl_run; cg.oif_run = oif_run;
 
 % MLD (control) and Zeu
@@ -188,7 +188,7 @@ for is = 1:size(spec,1)
     H.w50 = single(squeeze(w(:,ilay,:))');
     H.valid50 = (ws(:,2)~=0 & ~isnan(ws(:,2)));
     % monthly-mean depth-scale structure (any multi-month average is the
-    % valid-day-weighted mean of these, see plot_figS11/S12)
+    % valid-day-weighted mean of these, see plot_figS12/S13)
     valid = squeeze(w(10,10,:)~=0);            % days used in the original (NaN days included; used for the MLD mean)
     finite_day = squeeze(any(any(~isnan(w(:,kz,:)),1),2));
     nan_partial = squeeze(any(any(isnan(w(:,kz,:)),1),2)) & finite_day;
@@ -229,7 +229,7 @@ cg.note = ['w*_ctrl/w*_oif: cumulative (scale-filtered) vertical fluxes (filtsca
         unit_src, cg.units.wb, cg.units.wFe, cg.units.wDIC, cg.units.filtscale, cg.units.depth, cg.units.time) ...
     'Horizontal average: over the 690 x 1050 interior cells of the OSP-1KM grid, i.e. the grid without a 20-cell band ' ...
     'along its open boundaries (208.3-219.7E, 46.2-57.7N; the ''papa_mask'' of the file names), for both runs (same grid). ' ...
-    'months_S11, months_S12: months averaged in the published depth-scale panels of Figs. S11(e,f) and S12. ' ...
+    'months_S12, months_S13: months averaged in the published depth-scale panels of Figs. S12(e,f) and S13. ' ...
     'file: relative to the data root (OIF_DATA_ROOT).'];
 save(fullfile(C.data_dir, 'coarsegrain_hovmoller.mat'), 'cg', '-v7');
 fprintf('prep_budgets_profiles_coarsegrain: done\n');

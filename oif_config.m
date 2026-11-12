@@ -65,8 +65,8 @@ C.valid_runs  = {'OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear', ...
                  'NEPAC4KM_INI_BEC_V2_daily_diaT2_nw5_allyear', ...
                  'PACMED12KM_INI_BEC_V2_param2_daily_diaT2', ...
                  'PACMED25KM_INI_BEC_V2_param2'};
-% Full-year 1 km control run of the coarse-graining diagnostics (Fig. S11 and
-% the control panels of Fig. S12; the OIF panels of S12 use C.oif{1,1}, Case 1)
+% Full-year 1 km control run of the coarse-graining diagnostics (Fig. S12 and
+% the control panels of Fig. S13; the OIF panels of S13 use C.oif{1,1}, Case 1)
 C.cg_ctrl = 'OSP1KM_INI_BEC_V2_daily_diaT2_nw5_allyear';
 
 % Model grids

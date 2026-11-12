@@ -7,11 +7,11 @@ function make_all_figures(rebuild_data)
 %                            % variable OIF_DATA_ROOT, see oif_config.m)
 %
 %   The plot scripts read only data/ and write PNG and PDF files to figures/,
-%   numbered as in the compiled manuscript (Fig1-Fig5, FigS1-FigS12);
-%   make_table_A1 then builds Table A1. Each script runs in its own
+%   numbered as in the compiled manuscript (Fig1-Fig4, FigS1-FigS13);
+%   make_table_S1 then builds Table S1. Each script runs in its own
 %   workspace. A script that fails is reported and the others still run,
 %   except after a failed prep script: then the plot scripts and
-%   make_table_A1 are skipped, so that no figure or table is made from a
+%   make_table_S1 are skipped, so that no figure or table is made from a
 %   partly rebuilt data/. The run ends with a summary and, if any script
 %   failed, with an error that lists the failed scripts (so that
 %   matlab -batch exits with a non-zero status). Only the figures that a
@@ -36,17 +36,19 @@ steps = {};
 if rebuild_data
     steps = {'prep_validation', ...                    % Figs. S1, S2
              'prep_maps', ...                          % Figs. 1, S3-S6
-             'prep_timeseries_ensemble', ...           % Figs. 2-4, S7, S8, Table A1
-             'prep_budgets_profiles_coarsegrain'};     % Figs. 5, S9-S12
+             'prep_timeseries_ensemble', ...           % Figs. 2, 3, S7, S9, Table S1
+             'prep_ensemble_mld', ...                  % Fig. S9e,f (after prep_timeseries_ensemble)
+             'prep_nutrient_limitation', ...           % Fig. S8
+             'prep_budgets_profiles_coarsegrain'};     % Figs. 4, S10-S13
 end
 nprep = numel(steps);
 steps = [steps, ...
-    {'plot_fig1', 'plot_fig2', 'plot_fig3', 'plot_fig4', 'plot_fig5', ...       % Figures 1-5
+    {'plot_fig1', 'plot_fig2', 'plot_fig3', 'plot_fig4', ...                    % Figures 1-4
      'plot_figS1', 'plot_figS2', 'plot_figS3', 'plot_figS4', ...               % Figures S1-S4
      'plot_figS5_S6', ...                                                      % Figures S5, S6
-     'plot_figS7', 'plot_figS8', 'plot_figS9', 'plot_figS10', ...              % Figures S7-S12
-     'plot_figS11', 'plot_figS12', ...
-     'make_table_A1'}];                                                        % Table A1
+     'plot_figS7', 'plot_figS8', 'plot_figS9', 'plot_figS10', 'plot_figS11', ... % Figures S7-S13
+     'plot_figS12', 'plot_figS13', ...
+     'make_table_S1'}];                                                        % Table S1
 
 n = numel(steps);
 ok = false(1, n); dt = zeros(1, n); why = cell(1, n); skipped = false(1, n);
@@ -77,7 +79,7 @@ if any(failed)
     end
     error('OIF:makeAllFigures', '%s', msg);
 end
-fprintf('All figures written to %s; Table A1 written to %s\n', C.fig_dir, ...
+fprintf('All figures written to %s; Table S1 written to %s\n', C.fig_dir, ...
     fullfile(C.pkg_dir, 'tables'));
 end
 

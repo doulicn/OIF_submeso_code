@@ -10,7 +10,7 @@ function cmap = oif_cmocean(name, NLevels)
 %          reverses the colormap (e.g. '-amp')
 %
 %   Only the two colormaps used by this package are included ('amp': Figs.
-%   1f-h, S5 and S6; 'balance': Figs. S11 and S12). The 256 x 3 RGB tables
+%   1f-h, S5 and S6; 'balance': Figs. S12 and S13). The 256 x 3 RGB tables
 %   are those of the cmocean colormaps by Kristen M. Thyng, as distributed
 %   with the MATLAB function cmocean.m by Chad A. Greene. Resampling to
 %   NLevels is the linear interpolation over the 256 entries of that
