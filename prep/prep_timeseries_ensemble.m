@@ -217,7 +217,7 @@ V.pct_R1_patchPOC100   = variance_two_way(E.int_patch_POC100(selR1),  month_lbl(
 V.pct_June_patchPOC100 = variance_two_way(E.int_patch_POC100(selJun), region_lbl(selJun), res_lbl(selJun));
 E.var = V;
 
-% ---- correlations (Fig. 3e,f, Fig. S9c,d) ----
+% ---- correlations (Fig. 4, Fig. S9c,d) ----
 cp = {'dCO2_FLUX_int_vs_PatchArea',    E.xls_area_CO2,      E.xls_CO2
       'dCO2_FLUX_int_vs_ctrlPHYC_wavg', E.xls_ctrlPHYC_wavg, E.xls_CO2
       'dCO2_FLUX_int_vs_ctrlPHYC_int',  E.xls_ctrlPHYC_int,  E.xls_CO2

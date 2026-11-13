@@ -1,15 +1,12 @@
-%PLOT_FIG3 Manuscript Figure 3: ensemble response, variance attribution and controls on CO2 uptake.
-%   LaTeX label fig:ensemble; published file Fig3_4.pdf (the revision merged
-%   Figures 3 and 4 of the original submission into this figure).
+%PLOT_FIG3 Manuscript Figure 3: ensemble response vs resolution and variance attribution.
+%   LaTeX label fig:ensemble; published file Fig3.pdf.
 %   (a) mean filamentation index (first two release months), (b) 60-day mean
 %   patch area, (c) 60-day air-sea CO2 flux anomaly integrated over the
 %   OSP-1KM domain (right axis tons C), (d) balanced two-way variance partition
 %   (R1: timing x resolution; June: region x resolution) of FI, patch area
-%   and the domain-integrated CO2 flux anomaly, (e,f) the CO2 flux anomaly of
-%   (c) vs (e) the 60-day mean patch area and (f) the patch-integrated
-%   control-run PHYC; dashed: least-squares fit, Pearson R and p.
+%   and the domain-integrated CO2 flux anomaly.
 %
-%   (c), (e) and (f) use the same domain integral as (d) and Table S1 (label
+%   (c) uses the same domain integral as (d), Fig. 4 and Table S1 (label
 %   int_A, A = OSP-1KM domain).
 %
 %   Differences from the caption and legend:
@@ -21,14 +18,6 @@
 %     'June, n=9') describe statistics of the R1 runs and of the June runs.
 %   - FI is P^2/(4*pi*A) (perimeter P, area A), as in the original
 %     analysis; the manuscript defines FI = P/sqrt(A).
-%   - (f): PHYC is the surface phytoplankton carbon of the control run; the
-%     x value is the sum of 60 daily patch integrals of the surface
-%     concentration (mmol m-3 x m2 per day), labelled mmol m^-1 as in the
-%     published panel (see tables/make_table_S1.m).
-%   - p is printed with three decimals ('p = 0.000' for p < 5e-4).
-%   - The patch-mean control PHYC regression (Figure 4b of the original
-%     submission, R = 0.73) is no longer plotted; it is still computed by
-%     prep_timeseries_ensemble (E.corr.dCO2_FLUX_int_vs_ctrlPHYC_wavg).
 %
 %   Options (set the variables in the workspace before running the script):
 %     errorbar_stat = 'pooled'  (default) red/blue error bars as above
@@ -49,11 +38,9 @@ S = oif_ens_style(E);
 tonsC = C.mmolC_to_tC;
 fs = 8;
 
-% layout of Fig3_4.pdf: (a)-(c) stacked on the left with their legends below,
-% (d)-(f) stacked on the right
-fig = oif_figure('Units','centimeters','Position',[2 2 19.6 15.4],'Color','w','Visible','off');
-pa = [0.075 0.755 0.36 0.215];  pb = [0.075 0.485 0.36 0.215];  pc = [0.075 0.215 0.36 0.215];
-pd = [0.600 0.755 0.255 0.215]; pe = [0.600 0.430 0.355 0.235]; pf = [0.600 0.105 0.355 0.235];
+fig = oif_figure('Units','centimeters','Position',[2 2 19.6 11.2],'Color','w','Visible','off');
+pa = [0.075 0.60 0.39 0.35];  pb = [0.075 0.205 0.39 0.335];
+pc = [0.565 0.60 0.36 0.35];  pd = [0.565 0.205 0.36 0.335];
 
 % ---- (a) filamentation index ----
 ax = axes('Position', pa, 'FontSize', fs);
@@ -111,29 +98,7 @@ ylabel('$\mathrm{Variance\ explained\ (\%)}$', 'Interpreter','latex');
 text(ax, 0.02, 0.12, '(d)', 'Units','normalized', 'FontSize', fs+2);
 hv = gobjects(1,4); lc = [S.col_reg; S.col_time; S.col_res; S.col_int];
 for k = 1:4; hv(k) = plot(nan, nan, 's', 'MarkerFaceColor', lc(k,:), 'MarkerEdgeColor','none', 'MarkerSize', 7); end
-legend(hv, {'Region','Timing','Resolution','Interaction'}, 'Position', [0.86 0.79 0.13 0.13], 'Box','off', 'FontSize', fs);
-
-% ---- (e,f) CO2 flux anomaly vs patch area and patch-integrated control PHYC ----
-ylab = '$\mathrm{\int_{A}^T(\Delta CO_2\ FLUX),\ (mmol)}$';
-pn = {'dCO2_FLUX_int_vs_PatchArea', 'dCO2_FLUX_int_vs_ctrlPHYC_int'};
-xlab = {'Patch area (km^2)', '$\mathrm{\int_{A}^T(PHYC_{ctrl}),\ (mmol\ m^{-1})}$'};
-xint = {'tex','latex'}; pef = {pe, pf};
-for k = 1:2
-    ax = axes('Position', pef{k}, 'FontSize', fs);
-    plot_ens_corr(ax, E.corr.(pn{k}), S, S.msize, fs);
-    xlabel(xlab{k}, 'Interpreter', xint{k}); ylabel(ylab, 'Interpreter','latex');
-    if k == 1; xlim([1 4]*1e4); ylim([0 8e12]); else; axis tight; ylim([0 8e12]); end
-    text(ax, 0.98, 0.1, ['(' char('d'+k) ')'], 'Units','normalized', 'HorizontalAlignment','right', 'FontSize', fs+2);
-    if k == 1
-        hm = gobjects(1,4); hr = gobjects(1,3);
-        for j = 1:4; hm(j) = scatter(ax, nan, nan, S.msize, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor', S.month_col(j,:)); end
-        for j = 1:3; hr(j) = scatter(ax, nan, nan, S.msize, S.region_marker{j}, 'MarkerEdgeColor','k', 'MarkerFaceColor', S.region_face); end
-        % lower right, right of Case 9 (12KM_Jul, 2.75e4 km2), as in the published panel
-        axp = get(ax, 'Position');
-        legend(ax, [hm hr], [E.month_names(:)', E.region_names(:)'], 'NumColumns', 2, ...
-            'Position', [axp(1)+0.62*axp(3) axp(2)+0.06*axp(4) 0.30*axp(3) 0.42*axp(4)], 'FontSize', fs-1, 'Box','on');
-    end
-end
+legend(hv, {'Region','Timing','Resolution','Interaction'}, 'Position', [0.668 0.037 0.16 0.12], 'Box','off', 'FontSize', fs);
 
 % ---- legend for (a)-(c) (bottom left) ----
 axl = axes('Position', [0 0 1 1], 'Visible', 'off'); hold(axl, 'on');
@@ -141,7 +106,7 @@ hm = gobjects(1,4);
 for k = 1:4
     hm(k) = plot(axl, nan, nan, 'o', 'MarkerFaceColor', S.month_col(k,:), 'MarkerEdgeColor','k', 'MarkerSize', 6);
 end
-legend(hm, E.month_names, 'Position', [0.045 0.005 0.07 0.125], 'Box','off', 'FontSize', fs);
+legend(hm, E.month_names, 'Position', [0.061 0.015 0.07 0.16], 'Box','off', 'FontSize', fs);
 axl2 = axes('Position', [0 0 1 1], 'Visible', 'off'); hold(axl2, 'on');
 hr = gobjects(1,3);
 for k = 1:3
@@ -160,12 +125,11 @@ set(axl2, 'XLim', [0 1], 'YLim', [0 1]);
 n_all = numel(E.res_id); n_R1 = nnz(strcmp(E.region, 'R1')); n_Jun = nnz(strcmp(E.month, 'Jun'));
 legend([hr hl], [E.region_names(:)', {sprintf('Ensemble mean \\pm std (n=%d)', n_all), ...
     sprintf('Ensemble mean \\pm std (R1, n=%d)', n_R1), sprintf('Ensemble mean \\pm std (June, n=%d)', n_Jun)}], ...
-    'NumColumns', 2, 'Position', [0.125 0.03 0.34 0.09], 'Box','off', 'FontSize', fs);
+    'NumColumns', 2, 'Position', [0.143 0.048 0.34 0.12], 'Box','off', 'FontSize', fs);
 
 outname = 'Fig3';
 if ~strcmp(errorbar_stat, 'pooled'); outname = [outname '_' errorbar_stat]; end
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.png']), 'Resolution', 400);
 exportgraphics(fig, fullfile(C.fig_dir,[outname '.pdf']), 'ContentType','vector');
 close(fig);
-fprintf('%s written: (e,f) R = %.2f/%.2f, p = %.3f/%.3f\n', outname, E.corr.(pn{1}).R, E.corr.(pn{2}).R, ...
-    E.corr.(pn{1}).P, E.corr.(pn{2}).P);
+fprintf('%s written.\n', outname);

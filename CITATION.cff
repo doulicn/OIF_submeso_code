@@ -17,7 +17,7 @@ license:
 abstract: >-
   MATLAB code and processed output of nested ROMS-BEC simulations (1, 4 and
   12 km) of ocean iron fertilization near Ocean Station Papa that reproduce
-  Figures 1-4, Supporting Information Figures S1-S13 and Table S1 of the
+  Figures 1-5, Supporting Information Figures S1-S13 and Table S1 of the
   article. The plot scripts read only the processed data in data/; the prep
   scripts document how data/ was built from intermediate model products.
 keywords:

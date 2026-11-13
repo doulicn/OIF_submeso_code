@@ -1,9 +1,9 @@
-%PREP_BUDGETS_PROFILES_COARSEGRAIN  Build the compact data files for Fig. 4 and Figs. S10-S13.
+%PREP_BUDGETS_PROFILES_COARSEGRAIN  Build the compact data files for Fig. 5 and Figs. S10-S13.
 %
 %   Reads intermediate products in C.roms_dir/<run>/Analysis/figures/ (ROMS/
 %   folder of the data root C.box_root, environment variable OIF_DATA_ROOT;
 %   see oif_config.m) and writes
-%     data/budget_ensemble.mat        (Fig. 4, Fig. S10)
+%     data/budget_ensemble.mat        (Fig. 5, Fig. S10)
 %     data/profile_Fe_DIC.mat         (Fig. S11)
 %     data/coarsegrain_hovmoller.mat  (Fig. S12, Fig. S13)
 %

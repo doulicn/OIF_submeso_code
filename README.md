@@ -29,7 +29,7 @@ Ken O. Buesseler<sup>2</sup>, Zihua Liu<sup>2</sup>, Fei Chai<sup>3</sup>, Peng 
 ## 1. Overview
 
 This package contains the MATLAB code and the processed model output needed to
-reproduce every figure of the article, Figures 1-4 of the main text and
+reproduce every figure of the article, Figures 1-5 of the main text and
 Figures S1-S13 of the Supporting Information, and its Table S1.
 
 The study uses nested ROMS-BEC simulations around Ocean Station Papa (OSP,
@@ -169,8 +169,9 @@ slightly different size.
 |---|---|---|---|---|---|---|
 | Figure 1 | `fig:downscale` | `Fig1.pdf` | `plot/plot_fig1.m` | `figures/Fig1.png`, `.pdf` | `fig1_ab`, `fig1_pdfs`, `patchmaps_grid`, `patchmaps_occurrence` | yes |
 | Figure 2 | `fig:line_cmp` | `fig2_lines.pdf` | `plot/plot_fig2.m` | `figures/Fig2.png`, `.pdf` | `ts_patch_timeseries` | no |
-| Figure 3 | `fig:ensemble` | `Fig3_4.pdf` | `plot/plot_fig3.m` | `figures/Fig3.png`, `.pdf` | `ens_metrics` | no |
-| Figure 4 | `fig:budget_cmp` | `Fig5.pdf` | `plot/plot_fig4.m` | `figures/Fig4.png`, `.pdf` | `budget_ensemble` | no |
+| Figure 3 | `fig:ensemble` | `Fig3.pdf` | `plot/plot_fig3.m` | `figures/Fig3.png`, `.pdf` | `ens_metrics` | no |
+| Figure 4 | `fig:ensemble_corr` | `Fig4.pdf` | `plot/plot_fig4.m` | `figures/Fig4.png`, `.pdf` | `ens_metrics` | no |
+| Figure 5 | `fig:budget_cmp` | `Fig5.pdf` | `plot/plot_fig5.m` | `figures/Fig5.png`, `.pdf` | `budget_ensemble` | no |
 | Figure S1 | `fig:si_validation_monthly` | `fig_s1.pdf` | `plot/plot_figS1.m` | `figures/FigS1.png`, `.pdf` | `valid_model_papa`, `valid_obs_papa`, `valid_woa23_papa` | no |
 | Figure S2 | `fig:si_validation_vertical` | `fig_s2.pdf` | `plot/plot_figS2.m` | `figures/FigS2.png`, `.pdf` | `valid_model_papa`, `valid_obs_papa`, `valid_woa23_papa` | no |
 | Figure S3 | `fig:map_cmp` | `Fig_SI_map_diff_July1.pdf` | `plot/plot_figS3.m` | `figures/FigS3.png`, `.pdf` | `patchmaps_grid`, `patchmaps_S3_july1` | yes |
@@ -187,15 +188,16 @@ slightly different size.
 | Table S1 | `tab:oif_experiments` | (table in the Supporting Information) | `tables/make_table_S1.m` | `tables/table_S1.csv`, `tables/table_S1.tex` | `ens_metrics`, `ts_patch_timeseries` | no |
 
 - "Published file" is the file that the manuscript source includes for the
-  figure (`main_revised_v5_clean.tex`, `SI_revised_v5_clean.tex`). In the
-  revision, Figures 3 and 4 of the original submission were merged into
-  Figure 3 (`Fig3_4.pdf`; the former Figure 4a and 4c are its panels e and f,
-  the former Figure 4b is no longer shown), so the budget figure is now
-  Figure 4 (its source file is still `Fig5.pdf`); the nutrient-limitation
-  figure was added as Figure S8 (former S8-S12 are now S9-S13), panels e-h
-  were added to Figure S9, and Table A1 moved to the Supporting Information
-  as Table S1. Script names, output names and code comments of the package
-  use the numbers of the compiled revised manuscript.
+  figure (`main_revised_v6_clean.tex`, `SI_revised_v5_clean.tex`). Figures
+  3-5 keep the numbering of the original submission: Figure 3 (panels a-d),
+  Figure 4 (CO2 uptake vs patch area and control-run PHYC, panels a-c) and
+  Figure 5 (budgets). In the revision, the nutrient-limitation figure was
+  added as Figure S8 (former S8-S12 are now S9-S13), panels e-h were added to
+  Figure S9, and Table A1 moved to the Supporting Information as Table S1.
+  Script names, output names and code comments of the package use the
+  numbers of the compiled revised manuscript. The manuscript's Fig3.pdf,
+  Fig4.pdf and Fig5.pdf were restyled (fonts, panel layout); the package
+  figures show the same data and panels in the original styling.
 - PNG files are written at 400 dpi, except Figures 1 and S3-S7 (300 dpi). The
   PDF files are vector graphics, except Figures 1 and S3-S6, which are 300-dpi
   images, and Figure S8, a 400-dpi image (its interpolated pcolor shading is
@@ -295,8 +297,8 @@ analysis these are the composites with the tags LS11 and LS12 (Section 9.4).
 | Fig. 3a,b | mean FI; 60-day mean patch area | patch |
 | Fig. 3c | 60-day CO2 flux anomaly | domain |
 | Fig. 3d | variance partition of FI, patch area and the 60-day CO2 flux anomaly | domain (CO2) |
-| Fig. 3e,f | y: 60-day CO2 flux anomaly; x: (e) 60-day mean patch area, (f) patch-integrated control-run PHYC | y: domain; x: patch |
-| Fig. 4, S10 | Fe and DIC budget terms, upper 50 m, two-month window | domain |
+| Fig. 4 | y: 60-day CO2 flux anomaly; x: (a) 60-day mean patch area, (b) patch-mean and (c) patch-integrated control-run PHYC | y: domain; x: patch |
+| Fig. 5, S10 | Fe and DIC budget terms, upper 50 m, two-month window | domain |
 | Fig. S7 | patch mean (area-weighted sum / patch area), maximum, minimum, 5th-95th percentiles | patch |
 | Fig. S9a | 60-day POC flux anomaly at 100 m | domain |
 | Fig. S9b-d | variance partition and correlations of the POC flux anomaly | domain |
@@ -350,8 +352,8 @@ integrated over the upper 50 m and the analysis domain. It is accumulated over
 the days after the first day of the release month up to the end of the
 following month, keeping the days on which the domain sums of both runs are
 non-zero. The bars are ensemble means and the error bars +-1 standard
-deviation, over the 18 runs in Figure 4 and over the runs of each resolution
-or group in Figure S10. The numbers in Figure 4 are the mean term and its
+deviation, over the 18 runs in Figure 5 and over the runs of each resolution
+or group in Figure S10. The numbers in Figure 5 are the mean term and its
 standard deviation, both divided by the mean surface-flux term; the numbers in
 Figure S10 are the group-mean term divided by the group-mean surface-flux term.
 
@@ -423,7 +425,7 @@ drawn in black on top of its coloured contour.
   agree).
 - **As described by the caption.** The table caption describes the control-run
   PHYC integrated over the fertilized patch. That is the x-axis quantity of
-  Figure 3f (`xls_ctrlPHYC_int` in `data/ens_metrics.mat`).
+  Figure 4c (`xls_ctrlPHYC_int` in `data/ens_metrics.mat`).
 - `tables/table_S1.tex` reproduces the published column, and
   `tables/table_S1.csv` holds both quantities (columns
   `PHYC_published_dPHYC_domain_...` and `PHYCctrl_patch_Fig3f_...`).
@@ -487,9 +489,9 @@ with `scipy.io.loadmat` in Python.
 
 | File | Size | Written by | Used by | Contents |
 |---|---|---|---|---|
-| `budget_ensemble.mat` | 9 kB | `prep_budgets_profiles_coarsegrain` | Fig. 4, S10 | Fe and DIC budget terms of the 18 runs |
+| `budget_ensemble.mat` | 9 kB | `prep_budgets_profiles_coarsegrain` | Fig. 5, S10 | Fe and DIC budget terms of the 18 runs |
 | `coarsegrain_hovmoller.mat` | 0.7 MB | `prep_budgets_profiles_coarsegrain` | Fig. S12, S13 | coarse-grained vertical fluxes, MLD, Zeu |
-| `ens_metrics.mat` | 16 kB | `prep_timeseries_ensemble` | Fig. 3, S9, Table S1 | 60-day metrics, FI, variance partition, correlations |
+| `ens_metrics.mat` | 16 kB | `prep_timeseries_ensemble` | Fig. 3, 4, S9, Table S1 | 60-day metrics, FI, variance partition, correlations |
 | `ens_mld.mat` | 3 kB | `prep_ensemble_mld` | Fig. S9e,f | control-run MLD under the patch and its regressions |
 | `nutrient_limit_R1.mat` | < 1 MB | `prep_nutrient_limitation` | Fig. S8 | limiting nutrient and limitation factor at the R1 centre |
 | `fig1_ab.mat` | 3.4 MB | `prep_maps` | Fig. 1a,b | WOA23 and model surface NO3, grid outlines, release regions |
@@ -587,11 +589,11 @@ window of Section 5.2.
 | `xls_CO2`, `xls_POC100`, `xls_POC500` | double 18×1 | mmol C | 60-day domain integrals from the summary tables of the original analysis (`Statistics_InOutPatch_*.xlsx`); used for Figures 3d-f, S9b-d and Table S1 |
 | `xls_POC` | double 18×1 | mmol C | first POC row of that table (= `xls_POC100`); y-axis of Figure S9c,d |
 | `xls_CO2_patchfile` | double 18×1 | mmol C | CO2 integral from the patch table (= `int_patch_CO2`) |
-| `xls_area_CO2`, `xls_area_POC`, `xls_area_all` | double 18×1 | km2 | 60-day mean patch area from the patch table: CO2 rows (x-axis of Figure 3e), POC rows (x-axis of Figure S9c), mean of all rows (= `patch_area_60` to 5e-16) |
-| `xls_ctrlPHYC_wavg` | double 18×1 | mmol C m-3 | patch-area weighted mean surface PHYC of the control run over the 60 days (Figure 4b of the original submission; not plotted in the revision) |
-| `xls_ctrlPHYC_int` | double 18×1 | mmol C m-1 d | sum of the 60 daily patch integrals of the control-run surface PHYC (Figure 3f, Figure S9d; Section 5.7) |
+| `xls_area_CO2`, `xls_area_POC`, `xls_area_all` | double 18×1 | km2 | 60-day mean patch area from the patch table: CO2 rows (x-axis of Figure 4a), POC rows (x-axis of Figure S9c), mean of all rows (= `patch_area_60` to 5e-16) |
+| `xls_ctrlPHYC_wavg` | double 18×1 | mmol C m-3 | patch-area weighted mean surface PHYC of the control run over the 60 days (x-axis of Figure 4b) |
+| `xls_ctrlPHYC_int` | double 18×1 | mmol C m-1 d | sum of the 60 daily patch integrals of the control-run surface PHYC (Figure 4c, Figure S9d; Section 5.7) |
 | `var` | struct | % | variance partition: `metric` (FI, PatchArea, CO2_FLUX, POC_FLUX_100m, POC_FLUX_500m); `pct_R1` (5×3: release time, resolution, interaction; Cases 1-12); `pct_June` (5×3: region, resolution, interaction; Cases 1-3, 13-18); `R1_names`, `June_names`; `pct_R1_patchCO2`, `pct_June_patchCO2`, `pct_R1_patchPOC100`, `pct_June_patchPOC100` (the same applied to the patch integrals; not plotted). Inputs: `fi_mean`, `xls_area_all`, `xls_CO2`, `xls_POC100`, `xls_POC500`. |
-| `corr` | struct | | six regressions, each a struct with `x`, `y` (18×1), `fit_coef` (slope and intercept of the least-squares line), `R` (Pearson) and `P` (p-value): `dCO2_FLUX_int_vs_PatchArea`, `dCO2_FLUX_int_vs_ctrlPHYC_wavg`, `dCO2_FLUX_int_vs_ctrlPHYC_int` (Figure 3e,f use the first and the third; y = `xls_CO2`) and `dPOC_FLUX_int_vs_PatchArea`, `dPOC_FLUX_int_vs_ctrlPHYC_wavg`, `dPOC_FLUX_int_vs_ctrlPHYC_int` (y = `xls_POC`; Figure S9c,d use the first and the third) |
+| `corr` | struct | | six regressions, each a struct with `x`, `y` (18×1), `fit_coef` (slope and intercept of the least-squares line), `R` (Pearson) and `P` (p-value): `dCO2_FLUX_int_vs_PatchArea`, `dCO2_FLUX_int_vs_ctrlPHYC_wavg`, `dCO2_FLUX_int_vs_ctrlPHYC_int` (Figure 4a-c; y = `xls_CO2`) and `dPOC_FLUX_int_vs_PatchArea`, `dPOC_FLUX_int_vs_ctrlPHYC_wavg`, `dPOC_FLUX_int_vs_ctrlPHYC_int` (y = `xls_POC`; Figure S9c,d use the first and the third) |
 | `check_vs_cache` | struct | | differences of the recomputed values from the cached results of the original analysis (all below 5e-14): `var_stacked_R1`, `var_stacked_June`, `var_FilamentationIndex`, `var_PatchArea`, `var_CO2_FLUX`, `var_POC_FLUX_100m`, `var_POC_FLUX_500m` (maximum absolute difference of the variance percentages) and `corr_<regression>` for the six regressions of `corr` (1×4: difference of R, difference of P, maximum relative difference of x and of y) |
 
 ### `ens_mld.mat`

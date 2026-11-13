@@ -34,10 +34,10 @@ function T = make_table_S1(tex_file)
 %   sums of the domain-integrated surface PHYC anomaly (OIF - control) from
 %   data/ts_patch_timeseries.mat (dom.PHYC_surf). The table caption
 %   describes the control-run PHYC integrated over the fertilized patch,
-%   which is the quantity plotted in Fig. 3f (E.xls_ctrlPHYC_int); the CSV
+%   which is the quantity plotted in Fig. 4c (E.xls_ctrlPHYC_int); the CSV
 %   holds it in an extra column. Both are sums of 60 daily area integrals of
 %   a surface concentration (mmol m-3 x m2 x d = mmol m-1 d); the table
-%   header gives 10^12 mmol C and the axis of Fig. 3f mmol m^-1.
+%   header gives 10^12 mmol C and the axis of Fig. 4c mmol m^-1.
 %
 %   Input:  data/ens_metrics.mat, data/ts_patch_timeseries.mat
 %   Output: tables/table_S1.csv, tables/table_S1.tex
@@ -54,7 +54,7 @@ n = numel(E.label);
 case_no = (1:n)';
 res_km  = cellfun(@(s) sscanf(s, '%dKM'), E.res(:));
 area    = E.xls_area_all(:) / 1e4;        % 10^4 km2   (= E.patch_area_60, Fig. 3b)
-co2     = E.xls_CO2(:) / 1e12;            % 10^12 mmol C (= E.int_dom_CO2, Fig. 3c,e,f)
+co2     = E.xls_CO2(:) / 1e12;            % 10^12 mmol C (= E.int_dom_CO2, Fig. 3c, Fig. 4)
 poc100  = E.xls_POC100(:) / 1e12;         % (= E.int_dom_POC100)
 poc500  = E.xls_POC500(:) / 1e12;         % (= E.int_dom_POC500)
 % PHYC as published: domain-integrated surface PHYC anomaly (OIF - control),
@@ -75,7 +75,7 @@ if any(nmiss)
         strjoin(E.label(nmiss > 0)', ', '), mat2str(nmiss(nmiss > 0)'));
 end
 % PHYC described by the caption: control-run PHYC integrated over the patch
-% (x-axis of Fig. 3f)
+% (x-axis of Fig. 4c)
 phyc_ctrl = E.xls_ctrlPHYC_int(:) / 1e12;
 % the summary-table values equal the package's own integrals of the composites
 chk = [max(abs(E.xls_area_all - E.patch_area_60) ./ E.patch_area_60, [], 'includenan'), ...
@@ -128,9 +128,9 @@ fprintf(['Note on the PHYC column: it reproduces the published values, which are
     '  60-day sums of the domain-integrated surface PHYC anomaly (OIF - control),\n' ...
     '  in 10^12 mmol m-1 d (Pearson R with the CO2 column %.2f). The caption\n' ...
     '  describes the control-run PHYC integrated over the fertilized patch: the\n' ...
-    '  quantity plotted in Fig. 3f, E.xls_ctrlPHYC_int, in 10^12 mmol m-1 d (sum\n' ...
-    '  of 60 daily patch integrals of the surface concentration; Fig. 3f labels it\n' ...
-    '  mmol m^-1; R with CO2 %.2f as in Fig. 3f). It is the last column above and\n' ...
+    '  quantity plotted in Fig. 4c, E.xls_ctrlPHYC_int, in 10^12 mmol m-1 d (sum\n' ...
+    '  of 60 daily patch integrals of the surface concentration; Fig. 4c labels it\n' ...
+    '  mmol m^-1; R with CO2 %.2f as in Fig. 4c). It is the last column above and\n' ...
     '  the column PHYCctrl_patch_Fig3f of table_S1.csv.\n'], r_pub(1,2), r_ctrl(1,2));
 
 % ---- write tables/table_S1.tex (body rows) and tables/table_S1.csv ----------

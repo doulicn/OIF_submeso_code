@@ -18,7 +18,7 @@
 %   'b = dBudget/dDIC_FLUX^surf' and the Fe panels (a,c) 'a = ...' (in the
 %   original submission (d) was also labelled 'a'); only the imposed Fe surface flux
 %   has no error bar and number (the DIC surface flux keeps its spread and
-%   1.00); the surface-flux tick labels are black (purple in Fig. 4).
+%   1.00); the surface-flux tick labels are black (purple in Fig. 5).
 %   Legend n: members with data in each group; a warning is issued if a
 %   group misses term values.
 %   Input:  data/budget_ensemble.mat
